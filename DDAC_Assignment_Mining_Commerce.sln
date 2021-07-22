@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDAC_Assignment_Mining_Commerce", "DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce.csproj", "{72FD13F3-4DFC-4043-B834-CBFA12813CEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72FD13F3-4DFC-4043-B834-CBFA12813CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FD13F3-4DFC-4043-B834-CBFA12813CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FD13F3-4DFC-4043-B834-CBFA12813CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FD13F3-4DFC-4043-B834-CBFA12813CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC681D28-0DA3-4FFE-BF20-24B35F0738AD}
+	EndGlobalSection
+EndGlobal
