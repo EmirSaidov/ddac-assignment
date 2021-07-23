@@ -12,6 +12,8 @@ using Microsoft.Extensions.Azure;
 using Azure.Storage.Queues;
 using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
+using DDAC_Assignment_Mining_Commerce.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DDAC_Assignment_Mining_Commerce
 {
@@ -28,6 +30,12 @@ namespace DDAC_Assignment_Mining_Commerce
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //DB Context class
+            services.AddDbContext<MiningCommerceContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("MiningCommerceContext")));
+            
+            //Azure Services
             services.AddAzureClients(builder =>
             {
                 builder.AddBlobServiceClient(Configuration["ConnectionStrings:ddac_assignment_blob:blob"], preferMsi: true);
