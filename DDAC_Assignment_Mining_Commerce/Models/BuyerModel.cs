@@ -15,7 +15,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         [Display(Name = "Address")]
         public string address { get; set; }
 
-        [DataType(DataType.PhoneNumber)]
+        [Display(Name ="Shipping_Address")]
         public string shipping_address { get; set; }
+
     }
 }
