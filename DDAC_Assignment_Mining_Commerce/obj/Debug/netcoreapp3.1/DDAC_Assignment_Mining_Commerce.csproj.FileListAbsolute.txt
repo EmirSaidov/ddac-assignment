@@ -85,3 +85,4 @@ C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Min
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.WindowsAzure.Storage.dll

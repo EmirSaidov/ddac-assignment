@@ -5,4 +5,27 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <center>
+        <section>
+            <form method="post" enctype="multipart/form-data" asp-controller="Blob" asp-action="UploadFiles">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p> Upload one or more files using this form: </p>
+                        <input type="file" name="files" multiple />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Upload" />
+                    </div>
+                </div>
+            </form>
+        </section>
+    </center>
 </div>
+
+@if (ViewBag.msg != null)
+{   <p>
+    @ViewBag.msg
+    </p>
+}
