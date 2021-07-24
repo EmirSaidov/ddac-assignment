@@ -43,6 +43,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     //Redirect to Login
                     return RedirectToAction(actionName: "Login", controllerName: "Login");
                 }
+                else { ModelState.AddModelError(string.Empty, "Account with Email Already Exists"); }
             }
             return View("../User/Register/Buyer",buyer);
         }
