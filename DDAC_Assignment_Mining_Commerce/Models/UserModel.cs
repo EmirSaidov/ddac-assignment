@@ -42,4 +42,10 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         [Required]
         public string password { get; set; }
     }
+
+    enum UserType{ 
+        ADMIN,
+        SELLER,
+        BUYER
+    }
 }
