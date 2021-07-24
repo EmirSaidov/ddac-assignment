@@ -15,9 +15,9 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             {
                 seedUser(context);
                 var users = context.User.ToDictionary(user => user.email, user => user);
-                Console.WriteLine("====================");
-                users.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
-                Console.WriteLine("====================");
+                //Console.WriteLine("====================");
+                //users.Select(i => $"{i.Key}: {i.Value}").ToList().ForEach(Console.WriteLine);
+                //Console.WriteLine("====================");
                 seedBuyer(context,users);
                 seedSeller(context,users);
                 seedAdmin(context,users);
@@ -33,7 +33,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     fullname = "Buyer 1",
                     email = "buyer_1@mail.com",
                     DOB = DateTime.Parse("1989-2-12"),
-                    gender = 'M',
+                    gender = "M",
                     phone = "011-1234568",
                     password = "buyer_one"
                 },
@@ -42,7 +42,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     fullname = "Buyer 2",
                     email = "buyer_2@mail.com",
                     DOB = DateTime.Parse("1989-2-12"),
-                    gender = 'F',
+                    gender = "F",
                     phone = "011-1234568",
                     password = "buyer_two"
                 },
@@ -51,7 +51,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     fullname = "Seller 1",
                     email = "seller_1@mail.com",
                     DOB = DateTime.Parse("1989-2-12"),
-                    gender = 'M',
+                    gender = "F",
                     phone = "011-1234568",
                     password = "seller_one"
                 },
@@ -60,7 +60,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     fullname = "Seller 2",
                     email = "seller_2@mail.com",
                     DOB = DateTime.Parse("1989-2-12"),
-                    gender = 'M',
+                    gender = "M",
                     phone = "011-1234568",
                     password = "seller_two"
                 },
@@ -69,7 +69,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     fullname = "Admin",
                     email = "admin@mail.com",
                     DOB = DateTime.Parse("1989-2-12"),
-                    gender = 'M',
+                    gender = "M",
                     phone = "011-1234568",
                     password = "admin"
                 }
