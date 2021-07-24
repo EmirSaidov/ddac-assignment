@@ -18,9 +18,8 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string Message = null)
+        public IActionResult Index()
         {
-            ViewBag.msg = Message;
             return View();
         }
 
