@@ -16,6 +16,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public DbSet<SellerModel> Seller { get; set; }
         public DbSet<BuyerModel> Buyer { get; set; }
         public DbSet<AdminModel> Admin { get; set; }
+        public DbSet<ProductModel> Product { get; set; }
 
     }
 }

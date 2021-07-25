@@ -101,8 +101,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 new SellerModel
                 {
                     user = users["seller_1@mail.com"],
-                    store_address= "No.20 bukit jalil 32",
-                    store_contact= "565656565",
+                    store_address = "No.20 bukit jalil 32",
+                    store_contact = "565656565",
                     storeName = " Cave One ",
                 },
                 new SellerModel
