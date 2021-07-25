@@ -24,7 +24,7 @@ namespace MVCSellerShop2011Lab4.Controllers
         // GET: Sellers/Details/5
         public async Task<IActionResult> Details()
         {
-            int id = HttpContext.Session.Get<int>("SellerID");
+            int id = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
             var seller = await _context.Seller
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (seller == null)
@@ -38,7 +38,7 @@ namespace MVCSellerShop2011Lab4.Controllers
         // GET: Sellers/Edit/5
         public async Task<IActionResult> Edit()
         {
-            int id = HttpContext.Session.Get<int>("SellerID");
+            int id = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
             var seller = await _context.Seller.FindAsync(id);
             if (seller == null)
             {

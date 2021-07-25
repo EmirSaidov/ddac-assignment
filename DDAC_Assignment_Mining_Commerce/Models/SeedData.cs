@@ -125,6 +125,17 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     
                 });
         }
+
+        //public static void seedProduct(MiningCommerceContext context, Dictionary<string, UserModel> users)
+        //{
+        //    if (context.Product.Any()) return;
+        //    context.Product.AddRange(
+        //        new ProductModel
+        //        {
+        //            user = users["admin@mail.com"]
+
+        //        });
+        //}
     }
 
    

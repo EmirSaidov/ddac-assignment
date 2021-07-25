@@ -27,7 +27,7 @@ namespace MVCProductShop2011Lab4.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<int>("SellerID")).ToListAsync());
+            return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<SellerModel>("AuthRole").ID).ToListAsync());
         }
 
         // GET: Products/Details/5
