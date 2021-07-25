@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using DDAC_Assignment_Mining_Commerce.Helper;
 using DDAC_Assignment_Mining_Commerce.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +24,7 @@ namespace MVCProductShop2011Lab4.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<int>("SellerID")).ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -53,8 +56,9 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductName,ProductProducedDate,Type,Price")] ProductModel product)
+        public async Task<IActionResult> Create([Bind("productName, productPrice, productQuantity")] ProductModel product)
         {
+            product.sellerID = HttpContext.Session.Get<int>("SellerID");
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -85,8 +89,9 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductName,ProductProducedDate,Type,Price")] ProductModel product)
+        public async Task<IActionResult> Edit(int id, [Bind("ID, productName, productPrice, productQuantity")] ProductModel product)
         {
+            product.sellerID = HttpContext.Session.Get<int>("SellerID");
             if (id != product.ID)
             {
                 return NotFound();
