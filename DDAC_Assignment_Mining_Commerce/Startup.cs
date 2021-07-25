@@ -15,6 +15,7 @@ using Azure.Core.Extensions;
 using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
 using DDAC_Assignment_Mining_Commerce.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace DDAC_Assignment_Mining_Commerce
 {
@@ -30,6 +31,17 @@ namespace DDAC_Assignment_Mining_Commerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddControllersWithViews();
 
             //DB Context class
@@ -67,6 +79,7 @@ namespace DDAC_Assignment_Mining_Commerce
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
