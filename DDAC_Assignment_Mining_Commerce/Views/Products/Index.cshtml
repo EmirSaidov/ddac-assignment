@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.imageUri)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.productName)
             </th>
             <th>
@@ -27,22 +30,27 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productQuantity)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <div width="150" height="10">
+                    <img src="@Url.Content(item.imageUri)" width=150 />
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productQuantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
