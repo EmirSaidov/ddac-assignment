@@ -11,17 +11,18 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public int ID { get; set; }
 
         public virtual UserModel user { get; set; }
-        
-        [Display(Name ="Store Name")]
-        [Required(ErrorMessage ="Store Name is Required")]
+
+        [Display(Name = "Store Name")]
+        [Required(ErrorMessage = "Store Name is Required")]
         public string storeName { get; set; }
-        [Display(Name ="Store Address")]
+        [Display(Name = "Store Address")]
         [Required(ErrorMessage = "Store Address is Required")]
         public string store_address { get; set; }
-        [Display(Name ="Store Contact")]
+        [Display(Name = "Store Contact")]
         [Required(ErrorMessage = "Store Contact is Required")]
         [DataType(DataType.PhoneNumber)]
         public string store_contact { get; set; }
-        public bool is_approved = false;
+        [Display(Name = "Approved Status")]
+        public bool is_approved { get; set; } = false; 
     }
 }
