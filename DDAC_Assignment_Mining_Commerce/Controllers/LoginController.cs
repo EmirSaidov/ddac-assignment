@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DDAC_Assignment_Mining_Commerce.Helper;
+using Microsoft.AspNetCore.Http;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
@@ -14,39 +16,55 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             this._context = _context;
         }
 
-        public IActionResult Login()
+        public IActionResult Index()
         {
+            HttpContext.Session.Clear();
             return View("../User/Login");
         }
 
+        public IActionResult Logout() {
+            HttpContext.Session.Clear();
+            return View("../User/Login");
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserModel login)
         {
-            if (ModelState.IsValid)
+            if (login.email!=null && login.password != null)
             {
                 UserModel user = this._context.User.FirstOrDefault<UserModel>(user => user.email.ToLower() == login.email.ToLower());
-                UserType userType;
                 if (user != null)
                 {
+                    //Wrong Password
+                    if (user.password != login.password) {
+                        ModelState.AddModelError("ValidationError", "Wrong Password");
+                        return View("../User/Login", login);
+                    }
                     BuyerModel isBuyer = this._context.Buyer.FirstOrDefault<BuyerModel>(buyer => buyer.user.ID == user.ID);
                     SellerModel isSeller = this._context.Seller.FirstOrDefault<SellerModel>(seller => seller.user.ID == user.ID);
                     AdminModel isAdmin = this._context.Admin.FirstOrDefault<AdminModel>(admin => admin.user.ID == user.ID);
 
                     if (isBuyer != null)
                     {
-                        userType = UserType.BUYER;
+                        HttpContext.Session.Set<UserModel>("AuthUser", isBuyer.user);
+                        HttpContext.Session.Set<BuyerModel>("AuthRole", isBuyer);
+                        HttpContext.Session.Set<UserType>("UserType", UserType.BUYER);
                     }
                     else if (isSeller != null)
                     {
-                        userType = UserType.SELLER;
+                        HttpContext.Session.Set<UserModel>("AuthUser", isSeller.user);
+                        HttpContext.Session.Set<SellerModel>("AuthRole", isSeller);
+                        HttpContext.Session.Set<UserType>("UserType", UserType.SELLER);
                     }
                     else if (isAdmin != null) {
-                        userType = UserType.ADMIN;
+                        HttpContext.Session.Set<UserModel>("AuthUser", isAdmin.user);
+                        HttpContext.Session.Set<AdminModel>("AuthRole", isAdmin);
+                        HttpContext.Session.Set<UserType>("UserType", UserType.ADMIN);
                     }
+                    return RedirectToAction(actionName: "Index", controllerName: "Home");
                 }
-                else { ModelState.AddModelError(string.Empty, "Login Invalid! Account does not exists"); }
+                else { ModelState.AddModelError("ValidationError", "Login Invalid! Account does not exists"); }
             }
             return View("../User/Login", login);
         }

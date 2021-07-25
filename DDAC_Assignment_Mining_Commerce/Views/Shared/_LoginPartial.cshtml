@@ -1,17 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+@using DDAC_Assignment_Mining_Commerce.Helper
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
 
 <ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register_buyer" asp-controller="Register" asp-action="Buyer">Register as Buyer</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register_seller" asp-controller="Register" asp-action="Seller">Register as Seller</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-controller="Login" asp-action="Login">Login</a>
-    </li>
+    @if (HttpContextAccessor.HttpContext.Session.Get("AuthUser") == null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register_buyer" asp-controller="Register" asp-action="Buyer">Register as Buyer</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register_seller" asp-controller="Register" asp-action="Seller">Register as Seller</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-controller="Login" asp-action="Index">Login</a>
+        </li>
+    }
+    else
+    {
+        var username = HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").fullname;
+        <li>Welcome @username</li>
+        switch (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType"))
+        {
+            case UserType.BUYER:
+                //Buyer Nav Items
+                <li class="nav-item">Buyer Account Example</li>
+                break;
+            case UserType.SELLER:
+                //Seller Nav Items
+
+                <li class="nav-item">Seller Account Example</li>
+                break;
+            case UserType.ADMIN:
+
+                <li class="nav-item">Admin Account Example</li>
+                //Admin Nav Items
+                break;
+        }
+        //Authenticated User Nav Items
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="logout" asp-controller="Login" asp-action="Logout">Logout</a>
+        </li>
+    }
+
 </ul>
