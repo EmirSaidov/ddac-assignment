@@ -20,9 +20,9 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 //Console.WriteLine("====================");
                 seedBuyer(context,users);
                 seedSeller(context,users);
+                var sellers = context.Seller.ToDictionary(seller => seller.user.email, seller => seller);  
                 seedAdmin(context,users);
-                seedProduct(context);
-                context.SaveChanges();
+                seedProduct(context,sellers);
 
             }
         }
@@ -93,6 +93,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     shipping_address = "No.20 bukit jalil 32"
                 }
                 );
+            context.SaveChanges();
         }
 
         public static void seedSeller(MiningCommerceContext context, Dictionary<string, UserModel> users)
@@ -114,6 +115,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     storeName = " Cave Two",
                 }
                 );
+            context.SaveChanges();
         }
 
         public static void seedAdmin(MiningCommerceContext context, Dictionary<string, UserModel> users)
@@ -125,15 +127,18 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     user = users["admin@mail.com"]
                     
                 });
+
+            context.SaveChanges();
         }
 
-        public static void seedProduct(MiningCommerceContext context)
+        public static void seedProduct(MiningCommerceContext context, Dictionary<string,SellerModel> sellers)
         {
             if (context.Product.Any()) return;
             context.Product.AddRange(
                 new ProductModel
                 {
-                    sellerID = 1,
+                    seller = sellers["seller_1@mail.com"],
+                    sellerID = sellers["seller_1@mail.com"].ID,
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117905.png",
                     productName = "Gold Ore",
                     productPrice = 100,
@@ -141,7 +146,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 },
                 new ProductModel
                 {
-                    sellerID = 1,
+                    seller = sellers["seller_1@mail.com"],
+                    sellerID = sellers["seller_1@mail.com"].ID,
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117906.png",
                     productName = "Copper Ore",
                     productPrice = 10,
@@ -149,7 +155,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 },
                 new ProductModel
                 {
-                    sellerID = 1,
+                    seller = sellers["seller_1@mail.com"],
+                    sellerID = sellers["seller_1@mail.com"].ID,
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117907.png",
                     productName = "Tungsten Ore",
                     productPrice = 15,
@@ -157,7 +164,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 },
                 new ProductModel
                 {
-                    sellerID = 2,
+                    seller = sellers["seller_2@mail.com"],
+                    sellerID = sellers["seller_2@mail.com"].ID,
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117908.png",
                     productName = "Iron Ore",
                     productPrice = 20,
@@ -165,12 +173,15 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 },
                 new ProductModel
                 {
-                    sellerID = 2,
+                    seller = sellers["seller_2@mail.com"],
+                    sellerID = sellers["seller_2@mail.com"].ID,
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117909.png",
                     productName = "Silver Ore",
                     productPrice = 23,
                     productQuantity = 700,
                 });
+
+            context.SaveChanges();
         }
     }
 
