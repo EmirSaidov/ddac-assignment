@@ -10,8 +10,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210723143805_Initial.cs" />
+    <Compile Remove="Migrations\20210723143805_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20210724134749_updateUserModelValidation.cs" />
+    <Compile Remove="Migrations\20210724134749_updateUserModelValidation.Designer.cs" />
     <Compile Remove="Migrations\20210725095439_createProduct.cs" />
     <Compile Remove="Migrations\20210725095439_createProduct.Designer.cs" />
+    <Compile Remove="Migrations\20210725095924_createProduct.cs" />
+    <Compile Remove="Migrations\20210725095924_createProduct.Designer.cs" />
+    <Compile Remove="Migrations\20210725135049_updateProductModelImageUri.cs" />
+    <Compile Remove="Migrations\20210725135049_updateProductModelImageUri.Designer.cs" />
+    <Compile Remove="Migrations\20210725184242_initial.cs" />
+    <Compile Remove="Migrations\20210725184242_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210725184747_initial.cs" />
+    <Compile Remove="Migrations\20210725184747_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210725185906_init.cs" />
+    <Compile Remove="Migrations\20210725185906_init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

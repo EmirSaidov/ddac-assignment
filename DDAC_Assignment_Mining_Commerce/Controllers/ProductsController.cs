@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DDAC_Assignment_Mining_Commerce.Helper;
 using DDAC_Assignment_Mining_Commerce.Models;
+using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,16 +16,18 @@ namespace MVCProductShop2011Lab4.Controllers
     public class ProductsController : Controller
     {
         private readonly MiningCommerceContext _context;
+        private readonly BlobService _blobService;
 
-        public ProductsController(MiningCommerceContext context)
+        public ProductsController(MiningCommerceContext context, BlobService blobService)
         {
             _context = context;
+            _blobService = blobService;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<int>("SellerID")).ToListAsync());
+            return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<SellerModel>("AuthRole").ID).ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -56,9 +59,11 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("productName, productPrice, productQuantity")] ProductModel product)
+        public async Task<IActionResult> Create(IFormFile image, [Bind("productName, productPrice, productQuantity")] ProductModel product)
         {
-            product.sellerID = HttpContext.Session.Get<int>("SellerID");
+            product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
+            if (image != null) product.imageUri = _blobService.uploadToProductContainer(image);
+
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -89,12 +94,13 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID, productName, productPrice, productQuantity")] ProductModel product)
+        public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productQuantity")] ProductModel product)
         {
-            product.sellerID = HttpContext.Session.Get<int>("SellerID");
-            if (id != product.ID)
+            product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
+            if (image != null)
             {
-                return NotFound();
+                _blobService.deleteFromProductContainer(product.imageUri);
+                product.imageUri = _blobService.uploadToProductContainer(image);
             }
 
             if (ModelState.IsValid)
@@ -144,6 +150,7 @@ namespace MVCProductShop2011Lab4.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
+            _blobService.deleteFromProductContainer(product.imageUri);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

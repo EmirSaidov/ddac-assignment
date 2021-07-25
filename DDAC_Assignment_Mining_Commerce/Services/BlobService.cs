@@ -1,7 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,18 +25,49 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 			return account.CreateCloudBlobClient();
 		}
 
-		public CloudBlobContainer getContainerInfo(string container_name, bool create_new = false) {
+		public CloudBlobContainer getContainerInfo(string container_name) {
 			CloudBlobContainer container = getClientAgent().GetContainerReference(container_name);
-			if (create_new) {
-				//CreateIfNotExists Async Returns true if container does not previously exist
-				return container.CreateIfNotExistsAsync().Result ? getContainerInfo(container_name) : container;
-			}
-			return container;
+			return container.CreateIfNotExistsAsync().Result ? getContainerInfo(container_name) : container;
 		}
 
 		public bool createContainer(string container_name) {
 			return getContainerInfo(container_name).CreateIfNotExistsAsync().Result;
 		}
 
-	}
+		// Generate blob name
+		private string generateBlobName(IFormFile image)
+		{
+			return DateTime.Now.ToString("yyyyMMddHHmmssffff") + Path.GetExtension(image.FileName).ToLower();
+		}
+
+		// Get blob name
+		private string getBlobName(string uri)
+        {
+			var processedString = uri
+				.Replace("https://miningassignment.blob.core.windows.net/", "")
+				.Replace("product/", "");
+			Debug.WriteLine(processedString);
+			return processedString;
+		}
+
+		// Add blob item
+		public string uploadToProductContainer(IFormFile image)
+        {
+			var blobItem = getContainerInfo("product").GetBlockBlobReference(generateBlobName(image));
+			blobItem.UploadFromStreamAsync(image.OpenReadStream()).Wait();
+			return blobItem.Uri.ToString();
+        }
+
+        // Delete blob item
+        public bool deleteFromProductContainer(string uri)
+        {
+			if (uri == null)
+            {
+				return false;
+            }
+			var blobItem = getContainerInfo("product").GetBlockBlobReference(getBlobName(uri));
+			return blobItem.DeleteIfExistsAsync().Result;
+        }
+
+    }
 }
