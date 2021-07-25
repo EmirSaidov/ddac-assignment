@@ -5,6 +5,15 @@
     <UserSecretsId>8fc2c1c0-0073-4fb7-bd79-ee6651eea01a</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20210725095439_createProduct.cs" />
+    <Compile Remove="Migrations\20210725095439_createProduct.Designer.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.3.0" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.1.0" />

@@ -55,6 +55,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     {
                         HttpContext.Session.Set<UserModel>("AuthUser", isSeller.user);
                         HttpContext.Session.Set<SellerModel>("AuthRole", isSeller);
+                        HttpContext.Session.Set<int>("SellerID", isSeller.ID);
                         HttpContext.Session.Set<UserType>("UserType", UserType.SELLER);
                     }
                     else if (isAdmin != null) {
