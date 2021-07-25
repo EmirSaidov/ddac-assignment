@@ -56,11 +56,12 @@
             <div class="form-group">
                 <label asp-for="@Model.productPrice" class="control-label"></label>
                 <input asp-for="@Model.productPrice" class="form-control" />
+                @*@Html.EditorFor(m => m.productPrice, new { htmlAttributes = new { type = "number", @class = "form-control" } })*@
                 <span asp-validation-for="@Model.productPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.productQuantity" class="control-label"></label>
-                <input asp-for="@Model.productQuantity" class="form-control" />
+                <input asp-for="@Model.productQuantity" class="form-control" type="number"/>
                 <span asp-validation-for="@Model.productQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">

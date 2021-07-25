@@ -21,6 +21,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 seedBuyer(context,users);
                 seedSeller(context,users);
                 seedAdmin(context,users);
+                seedProduct(context);
                 context.SaveChanges();
 
             }
@@ -126,16 +127,51 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 });
         }
 
-        //public static void seedProduct(MiningCommerceContext context, Dictionary<string, UserModel> users)
-        //{
-        //    if (context.Product.Any()) return;
-        //    context.Product.AddRange(
-        //        new ProductModel
-        //        {
-        //            user = users["admin@mail.com"]
-
-        //        });
-        //}
+        public static void seedProduct(MiningCommerceContext context)
+        {
+            if (context.Product.Any()) return;
+            context.Product.AddRange(
+                new ProductModel
+                {
+                    sellerID = 1,
+                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117905.png",
+                    productName = "Gold Ore",
+                    productPrice = 100,
+                    productQuantity = 20,
+                },
+                new ProductModel
+                {
+                    sellerID = 1,
+                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117906.png",
+                    productName = "Copper Ore",
+                    productPrice = 10,
+                    productQuantity = 800,
+                },
+                new ProductModel
+                {
+                    sellerID = 1,
+                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117907.png",
+                    productName = "Tungsten Ore",
+                    productPrice = 15,
+                    productQuantity = 500,
+                },
+                new ProductModel
+                {
+                    sellerID = 2,
+                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117908.png",
+                    productName = "Iron Ore",
+                    productPrice = 20,
+                    productQuantity = 500,
+                },
+                new ProductModel
+                {
+                    sellerID = 2,
+                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117909.png",
+                    productName = "Silver Ore",
+                    productPrice = 23,
+                    productQuantity = 700,
+                });
+        }
     }
 
    

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDAC_Assignment_Mining_Commerce.Migrations
 {
     [DbContext(typeof(MiningCommerceContext))]
-    [Migration("20210724134749_updateUserModelValidation")]
-    partial class updateUserModelValidation
+    [Migration("20210725191449_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,36 @@ namespace DDAC_Assignment_Mining_Commerce.Migrations
                     b.HasIndex("userID");
 
                     b.ToTable("Buyer");
+                });
+
+            modelBuilder.Entity("DDAC_Assignment_Mining_Commerce.Models.ProductModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("imageUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("productName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("productPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("productQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("sellerID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("sellerID");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("DDAC_Assignment_Mining_Commerce.Models.SellerModel", b =>
@@ -111,6 +141,7 @@ namespace DDAC_Assignment_Mining_Commerce.Migrations
 
                     b.Property<string>("gender")
                         .IsRequired()
+                        .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("password")
@@ -143,6 +174,17 @@ namespace DDAC_Assignment_Mining_Commerce.Migrations
                         .HasForeignKey("userID");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("DDAC_Assignment_Mining_Commerce.Models.ProductModel", b =>
+                {
+                    b.HasOne("DDAC_Assignment_Mining_Commerce.Models.SellerModel", "seller")
+                        .WithMany()
+                        .HasForeignKey("sellerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("seller");
                 });
 
             modelBuilder.Entity("DDAC_Assignment_Mining_Commerce.Models.SellerModel", b =>

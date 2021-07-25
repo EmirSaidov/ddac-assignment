@@ -73,13 +73,11 @@ namespace DDAC_Assignment_Mining_Commerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("productPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("productPrice")
+                        .HasColumnType("float");
 
-                    b.Property<string>("productQuantity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("productQuantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("sellerID")
                         .HasColumnType("int");

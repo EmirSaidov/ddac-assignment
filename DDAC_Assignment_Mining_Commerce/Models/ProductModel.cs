@@ -25,11 +25,10 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         [Display(Name ="Product Price")]
         [Required(ErrorMessage = "Product Price is Required")]
-        public string productPrice{ get; set; }
+        public double productPrice{ get; set; }
 
         [Display(Name ="Product Quantity")]
         [Required(ErrorMessage = "Product Quantity is Required")]
-        [DataType(DataType.PhoneNumber)]
-        public string productQuantity{ get; set; }
+        public int productQuantity{ get; set; }
     }
 }
