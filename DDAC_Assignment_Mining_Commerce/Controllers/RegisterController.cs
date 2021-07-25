@@ -60,7 +60,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.Seller.AddAsync(seller);
                     await this._context.SaveChangesAsync();
                     //Redirect to Login
-                    return RedirectToAction(actionName: "Login", controllerName: "Login");
+                    return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
                 else { ModelState.AddModelError(string.Empty, "Account with Email Already Exists"); }
             }
