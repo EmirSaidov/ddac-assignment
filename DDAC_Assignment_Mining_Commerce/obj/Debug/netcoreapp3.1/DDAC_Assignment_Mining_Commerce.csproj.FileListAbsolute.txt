@@ -333,3 +333,13 @@ C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mini
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Index.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Store\Details.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Store\Edit.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Create.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Delete.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Details.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Edit.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Index.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Store\Details.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Store\Edit.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Buyer.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Seller.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Password.cshtml.g.cs

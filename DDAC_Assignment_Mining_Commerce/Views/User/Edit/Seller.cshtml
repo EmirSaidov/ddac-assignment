@@ -1,0 +1,52 @@
+﻿@model SellerModel
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditSeller" method="post">
+            <hr />
+            <input type="hidden" asp-for="@Model.ID" />
+            <input type="hidden" asp-for="@Model.user.ID" />
+            <input type="hidden" asp-for="@Model.user.password" />
+            <input type="hidden" asp-for="@Model.storeName" />
+            <input type="hidden" asp-for="@Model.store_address" />
+            <input type="hidden" asp-for="@Model.store_contact" />
+            <div class="form-group">
+                <label asp-for="@Model.user.fullname"></label>
+                <input asp-for="@Model.user.fullname" class="form-control" />
+                <span asp-validation-for="@Model.user.fullname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.user.email"></label>
+                <input asp-for="@Model.user.email" class="form-control" />
+                <span asp-validation-for="@Model.user.email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.user.phone"></label>
+                <input asp-for="@Model.user.phone" class="form-control" />
+                <span asp-validation-for="@Model.user.phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.user.gender"></label>
+                <select asp-for="@Model.user.gender" class="form-control">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Others</option>
+                </select>
+                <span asp-validation-for="@Model.user.gender" class="text-danger"></span>
+            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @if (TempData["edit_status"] != null)
+            {
+                <div class="text-success">
+                    @TempData["edit_status"]
+                </div>
+            }
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+            <button asp-action="Password" class="btn btn-secondary">Change Password</button>
+        </form>
+    </div>
