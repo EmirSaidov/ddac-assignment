@@ -26,7 +26,6 @@
         {
             case UserType.BUYER:
                 //Buyer Nav Items
-                <li class="nav-item">Buyer Account Example</li>
                 break;
             case UserType.SELLER:
                 //Seller Nav Items
@@ -38,8 +37,9 @@
                 </li>
                 break;
             case UserType.ADMIN:
-
-                <li class="nav-item">Admin Account Example</li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="approve_seller" asp-controller="Admin" asp-action="Approve">Approve Seller</a>
+                </li>
                 //Admin Nav Items
                 break;
         }
