@@ -2,7 +2,6 @@
 
 <script type="text/javascript">
     function PreviewImage() {
-        console.log("here")
         // Where you will display your image
         //var preview = document.querySelector('img');
         var preview = document.getElementById("previewImage");
@@ -43,7 +42,7 @@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <img src="" class="img-responsive" id="previewImage" width="150"/>
+                <img src="" class="img-responsive" id="previewImage" width="150" />
             </div>
             <div class="form-group">
                 <input id="uploadImage" type="file" accept="image/png, image/jpg, image/jpeg" name="image" onchange="PreviewImage()" />
@@ -55,14 +54,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.productPrice" class="control-label"></label>
-                <input asp-for="@Model.productPrice" class="form-control" />
-                @*@Html.EditorFor(m => m.productPrice, new { htmlAttributes = new { type = "number", @class = "form-control" } })*@
+                <input asp-for="@Model.productPrice" class="form-control" type="number" step="any" min=0/>
                 <span asp-validation-for="@Model.productPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.productQuantity" class="control-label"></label>
-                <input asp-for="@Model.productQuantity" class="form-control" type="number"/>
-                <span asp-validation-for="@Model.productQuantity" class="text-danger"></span>
+                <label asp-for="@Model.productMass" class="control-label"></label>
+                <input asp-for="@Model.productMass" class="form-control" type="number" step="any" min=0/>
+                <span asp-validation-for="@Model.productMass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.productDescription" class="control-label"></label>
+                <textarea asp-for="@Model.productDescription" class="form-control"></textarea>
+                <span asp-validation-for="@Model.productDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -59,8 +59,10 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormFile image, [Bind("productName, productPrice, productQuantity")] ProductModel product)
+        public async Task<IActionResult> Create(IFormFile image, double productPrice, [Bind("productName, productPrice, productMass, productDescription")] ProductModel product)
         {
+            Debug.WriteLine(productPrice);
+            Debug.WriteLine(product.productPrice);
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
             if (image != null) product.imageUri = _blobService.uploadToProductContainer(image);
 
@@ -94,7 +96,7 @@ namespace MVCProductShop2011Lab4.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productQuantity")] ProductModel product)
+        public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productMass, productDescription")] ProductModel product)
         {
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
             if (image != null)

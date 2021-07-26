@@ -43,6 +43,10 @@ namespace DDAC_Assignment_Mining_Commerce
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddControllersWithViews();
+            services.AddMvc(config =>
+            {
+                config.ModelBinderProviders.Insert(0, new ModelBinder());
+            });
 
             //DB Context class
             services.AddDbContext<MiningCommerceContext>(options =>
