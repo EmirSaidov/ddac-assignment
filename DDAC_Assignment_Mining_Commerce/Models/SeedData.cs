@@ -106,6 +106,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     store_address = "No.20 bukit jalil 32",
                     store_contact = "565656565",
                     storeName = " Cave One ",
+                    is_approved = true,
                 },
                 new SellerModel
                {
@@ -113,6 +114,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     store_address = "No.20 bukit jalil 32",
                     store_contact = "565656565",
                     storeName = " Cave Two",
+                    is_approved = true,
                 }
                 );
             context.SaveChanges();
