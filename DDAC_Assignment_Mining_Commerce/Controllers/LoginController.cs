@@ -53,9 +53,15 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     }
                     else if (isSeller != null)
                     {
-                        HttpContext.Session.Set<UserModel>("AuthUser", isSeller.user);
-                        HttpContext.Session.Set<SellerModel>("AuthRole", isSeller);
-                        HttpContext.Session.Set<UserType>("UserType", UserType.SELLER);
+                        if (isSeller.is_approved) {
+                            HttpContext.Session.Set<UserModel>("AuthUser", isSeller.user);
+                            HttpContext.Session.Set<SellerModel>("AuthRole", isSeller);
+                            HttpContext.Session.Set<UserType>("UserType", UserType.SELLER);
+                        } else{
+                            ModelState.AddModelError("ValidationError", "Your Seller Account has not been approved");
+                            return View("../User/Login", login);
+                        }
+                        
                     }
                     else if (isAdmin != null) {
                         HttpContext.Session.Set<UserModel>("AuthUser", isAdmin.user);
