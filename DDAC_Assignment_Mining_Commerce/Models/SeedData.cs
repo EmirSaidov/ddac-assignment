@@ -144,7 +144,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117905.png",
                     productName = "Gold Ore",
                     productPrice = 100,
-                    productQuantity = 20,
+                    productMass = 20,
+                    productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac placerat est, id mollis lorem. Morbi felis arcu, dignissim et ornare ut, ornare non tortor. Suspendisse vel leo sem. Sed eu euismod neque. In vestibulum orci vel lectus finibus, tincidunt sagittis dui sodales. Morbi et sem eget sapien aliquam pellentesque. Vivamus convallis arcu elit, maximus aliquet leo luctus sed. Sed ac tortor pretium, tincidunt velit at, porttitor neque. Cras vestibulum congue ex, quis aliquam magna ullamcorper ut. Aliquam fermentum, libero et posuere pretium, augue mi consequat enim, finibus ultricies nulla ex vitae risus. Fusce ut odio dolor. Morbi ultrices sem.",
                 },
                 new ProductModel
                 {
@@ -153,7 +154,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117906.png",
                     productName = "Copper Ore",
                     productPrice = 10,
-                    productQuantity = 800,
+                    productMass = 800,
+                    productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac placerat est, id mollis lorem. Morbi felis arcu, dignissim et ornare ut, ornare non tortor. Suspendisse vel leo sem. Sed eu euismod neque. In vestibulum orci vel lectus finibus, tincidunt sagittis dui sodales. Morbi et sem eget sapien aliquam pellentesque. Vivamus convallis arcu elit, maximus aliquet leo luctus sed. Sed ac tortor pretium, tincidunt velit at, porttitor neque. Cras vestibulum congue ex, quis aliquam magna ullamcorper ut. Aliquam fermentum, libero et posuere pretium, augue mi consequat enim, finibus ultricies nulla ex vitae risus. Fusce ut odio dolor. Morbi ultrices sem.",
                 },
                 new ProductModel
                 {
@@ -162,7 +164,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117907.png",
                     productName = "Tungsten Ore",
                     productPrice = 15,
-                    productQuantity = 500,
+                    productMass = 500,
+                    productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac placerat est, id mollis lorem. Morbi felis arcu, dignissim et ornare ut, ornare non tortor. Suspendisse vel leo sem. Sed eu euismod neque. In vestibulum orci vel lectus finibus, tincidunt sagittis dui sodales. Morbi et sem eget sapien aliquam pellentesque. Vivamus convallis arcu elit, maximus aliquet leo luctus sed. Sed ac tortor pretium, tincidunt velit at, porttitor neque. Cras vestibulum congue ex, quis aliquam magna ullamcorper ut. Aliquam fermentum, libero et posuere pretium, augue mi consequat enim, finibus ultricies nulla ex vitae risus. Fusce ut odio dolor. Morbi ultrices sem.",
                 },
                 new ProductModel
                 {
@@ -171,7 +174,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117908.png",
                     productName = "Iron Ore",
                     productPrice = 20,
-                    productQuantity = 500,
+                    productMass = 500,
+                    productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac placerat est, id mollis lorem. Morbi felis arcu, dignissim et ornare ut, ornare non tortor. Suspendisse vel leo sem. Sed eu euismod neque. In vestibulum orci vel lectus finibus, tincidunt sagittis dui sodales. Morbi et sem eget sapien aliquam pellentesque. Vivamus convallis arcu elit, maximus aliquet leo luctus sed. Sed ac tortor pretium, tincidunt velit at, porttitor neque. Cras vestibulum congue ex, quis aliquam magna ullamcorper ut. Aliquam fermentum, libero et posuere pretium, augue mi consequat enim, finibus ultricies nulla ex vitae risus. Fusce ut odio dolor. Morbi ultrices sem.",
                 },
                 new ProductModel
                 {
@@ -180,7 +184,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                     imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117909.png",
                     productName = "Silver Ore",
                     productPrice = 23,
-                    productQuantity = 700,
+                    productMass = 700,
+                    productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac placerat est, id mollis lorem. Morbi felis arcu, dignissim et ornare ut, ornare non tortor. Suspendisse vel leo sem. Sed eu euismod neque. In vestibulum orci vel lectus finibus, tincidunt sagittis dui sodales. Morbi et sem eget sapien aliquam pellentesque. Vivamus convallis arcu elit, maximus aliquet leo luctus sed. Sed ac tortor pretium, tincidunt velit at, porttitor neque. Cras vestibulum congue ex, quis aliquam magna ullamcorper ut. Aliquam fermentum, libero et posuere pretium, augue mi consequat enim, finibus ultricies nulla ex vitae risus. Fusce ut odio dolor. Morbi ultrices sem.",
                 });
 
             context.SaveChanges();

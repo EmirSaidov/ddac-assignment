@@ -25,10 +25,16 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         [Display(Name ="Product Price")]
         [Required(ErrorMessage = "Product Price is Required")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter valid number")]
         public double productPrice{ get; set; }
 
-        [Display(Name ="Product Quantity")]
-        [Required(ErrorMessage = "Product Quantity is Required")]
-        public int productQuantity{ get; set; }
+        [Display(Name ="Product Mass")]
+        [Required(ErrorMessage = "Product Mass is Required")]
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter a valid number")]
+        public double productMass{ get; set; }
+
+        [Display(Name = "Product Description")]
+        [DataType(DataType.MultilineText)]
+        public string productDescription{ get; set; }
     }
 }
