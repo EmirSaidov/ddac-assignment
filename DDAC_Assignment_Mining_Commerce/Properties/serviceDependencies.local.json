@@ -5,6 +5,12 @@
       "type": "storage.azure",
       "connectionId": "ddac_assignment_blob",
       "secretStore": null
+    },
+    "storage2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/mininganalytics",
+      "type": "storage.azure",
+      "connectionId": "AnalyticsStorage",
+      "secretStore": null
     }
   }
 }

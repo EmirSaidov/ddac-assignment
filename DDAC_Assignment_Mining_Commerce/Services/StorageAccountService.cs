@@ -20,5 +20,10 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return CloudStorageAccount.Parse(this._appSetting.getConnectionString("StorageAccountConnection"));
         }
 
+        public CloudStorageAccount connectAnalyticsAccount()
+        {
+            return CloudStorageAccount.Parse(this._appSetting.getConnectionString("AnalyticsAccountConnection"));
+        }
+
     }
 }

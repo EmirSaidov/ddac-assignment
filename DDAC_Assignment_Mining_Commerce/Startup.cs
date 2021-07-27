@@ -55,6 +55,8 @@ namespace DDAC_Assignment_Mining_Commerce
             services.AddScoped<AppSettingService>();
             services.AddScoped<StorageAccountService>();
             services.AddScoped<BlobService>();
+            services.AddScoped<TableService>();
+            services.AddScoped<AnalyticService>();
             
             //Azure Services
             services.AddAzureClients(builder =>

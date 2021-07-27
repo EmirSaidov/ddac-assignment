@@ -6,14 +6,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using DDAC_Assignment_Mining_Commerce.Helper;
 using Microsoft.AspNetCore.Http;
+using DDAC_Assignment_Mining_Commerce.Services;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
     public class LoginController : Controller
     {
         private readonly MiningCommerceContext _context;
-        public LoginController(MiningCommerceContext _context){
+        private readonly AnalyticService _analytics;
+        public LoginController(
+            MiningCommerceContext _context,
+            AnalyticService _analytics
+            ){
             this._context = _context;
+            this._analytics = _analytics;
         }
 
         public IActionResult Index()
@@ -68,6 +74,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                         HttpContext.Session.Set<AdminModel>("AuthRole", isAdmin);
                         HttpContext.Session.Set<UserType>("UserType", UserType.ADMIN);
                     }
+                    this._analytics.pushAnalytics<LoginAnalytics>(new LoginAnalytics(user.ID, DateTime.Now));
                     return RedirectToAction(actionName: "Index", controllerName: "Home");
                 }
                 else { ModelState.AddModelError("ValidationError", "Login Invalid! Account does not exists"); }
