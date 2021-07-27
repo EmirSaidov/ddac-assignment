@@ -348,3 +348,10 @@ C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mini
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Buyer.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Password.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\Edit\Seller.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.Table.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.DocumentDB.Core.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.OData.Core.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.OData.Edm.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Spatial.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win7-x64\native\Cosmos.CRTCompat.dll
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win7-x64\native\Microsoft.Azure.Documents.ServiceInterop.dll

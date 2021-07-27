@@ -3,6 +3,10 @@
     "storage1": {
       "restored": true,
       "restoreTime": "2021-07-22T15:05:07.7159971Z"
+    },
+    "storage2": {
+      "restored": true,
+      "restoreTime": "2021-07-27T15:56:40.2823815Z"
     }
   },
   "parameters": {
@@ -13,6 +17,16 @@
     },
     "storage1.subscriptionId": {
       "Name": "storage1.subscriptionId",
+      "Type": "subscription",
+      "Value": "1ace7919-bf69-4ddc-970d-bd13e2023b8b"
+    },
+    "storage2.resourceGroupName": {
+      "Name": "storage2.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "ddac_assignment"
+    },
+    "storage2.subscriptionId": {
+      "Name": "storage2.subscriptionId",
       "Type": "subscription",
       "Value": "1ace7919-bf69-4ddc-970d-bd13e2023b8b"
     }
