@@ -30,10 +30,6 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 			return container.CreateIfNotExistsAsync().Result ? getContainerInfo(container_name) : container;
 		}
 
-		public bool createContainer(string container_name) {
-			return getContainerInfo(container_name).CreateIfNotExistsAsync().Result;
-		}
-
 		// Generate blob name
 		private string generateBlobName(IFormFile image)
 		{
@@ -46,7 +42,7 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 			var processedString = uri
 				.Replace("https://miningassignment.blob.core.windows.net/", "")
 				.Replace("product/", "");
-			Debug.WriteLine(processedString);
+			//Debug.WriteLine(processedString);
 			return processedString;
 		}
 

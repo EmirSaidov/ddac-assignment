@@ -17,7 +17,7 @@ namespace DDAC_Assignment_Mining_Commerce.Services
         //Connect to the correct storage account and retrieve the container
         public CloudStorageAccount connectStorageAccount()
         {
-            return CloudStorageAccount.Parse(this._appSetting.getConnectionString("BlobStorageConnection"));
+            return CloudStorageAccount.Parse(this._appSetting.getConnectionString("StorageAccountConnection"));
         }
 
     }
