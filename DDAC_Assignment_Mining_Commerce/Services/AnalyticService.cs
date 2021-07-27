@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using DDAC_Assignment_Mining_Commerce.Models.Analytics;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
@@ -26,36 +27,12 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return table.CreateIfNotExistsAsync().Result ? getTable(table_name) : table;
         }
 
-        public async Task pushAnalytics<T>(T analytics) where T:TableEntity,Analytics{
+        public async Task pushAnalytics<T>(T analytics) where T:TableEntity,AnalyticModel{
             CloudTable table = getTable(analytics.tableName());
             await table.ExecuteBatchAsync(analytics.operations());
         }
     }
 
-    public interface Analytics{
-        //Name of table for analytics
-        public string tableName();
-        public TableBatchOperation operations();
-    }
+   
 
-    public class LoginAnalytics:TableEntity,Analytics {
-        public LoginAnalytics() { }
-        public LoginAnalytics(int user_id, DateTime login_time) {
-            this.user_id = user_id;
-            this.login_time= login_time;
-            this.PartitionKey = user_id.ToString();
-            this.RowKey = user_id.ToString();
-        }
-        public int user_id { get; set; }
-        public DateTime login_time { get; set; }
-        TableBatchOperation batch = new TableBatchOperation();
-        public string tableName() {
-            return "Login";
-        }
-
-        public TableBatchOperation operations() {
-            batch.Insert(new LoginAnalytics(this.user_id, this.login_time));
-            return batch;
-        }
-    }
 }
