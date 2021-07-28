@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace CosmosGettingStartedTutorial
+namespace DDAC_Assignment_Mining_Commerce.Models
 {
-    public class Cart
+    public class CartModel
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

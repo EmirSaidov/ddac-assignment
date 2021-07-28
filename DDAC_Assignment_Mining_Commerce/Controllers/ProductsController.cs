@@ -30,6 +30,25 @@ namespace MVCProductShop2011Lab4.Controllers
             return View(await _context.Product.Where(product => product.sellerID == HttpContext.Session.Get<SellerModel>("AuthRole").ID).ToListAsync());
         }
 
+        //GET: AllProducts
+        public async Task<IActionResult> Display()
+        {
+            return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
+        }
+        //GET: SearchedProduct
+        public async Task<IActionResult> Search(string Name)
+        {
+            if (Name == null)
+            {
+                return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
+            }
+            else
+            {
+                return View("../DisplayProducts/Display", await _context.Product.Where(product => product.productName.Contains(Name)).ToListAsync());
+
+            }
+        }
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {

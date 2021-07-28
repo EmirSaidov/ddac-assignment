@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.Azure.Cosmos;
 
-namespace CosmosGettingStartedTutorial
+namespace DDAC_Assignment_Mining_Commerce
 {
     class Cosmos
     {
@@ -14,6 +14,7 @@ namespace CosmosGettingStartedTutorial
 
         // The primary key for the Azure Cosmos account.
         private static readonly string PrimaryKey = ConfigurationManager.AppSettings["PrimaryKey"];
+
 
         // The Cosmos client instance
         private CosmosClient cosmosClient;
@@ -137,7 +138,7 @@ namespace CosmosGettingStartedTutorial
         private async Task AddItemsToContainerAsync()
         {
             // Create a family object for the Andersen family
-            Cart cart = new Cart
+            Models.CartModel cart = new Models.CartModel
             {
                 Id = "testid",
                 PartitionKey = "test",
@@ -149,13 +150,13 @@ namespace CosmosGettingStartedTutorial
             try
             {
                 // Read the item to see if it exists.  
-                ItemResponse<Cart> cartResponse = await this.container.ReadItemAsync<Cart>(cart.Id, new PartitionKey(cart.PartitionKey));
+                ItemResponse<Models.CartModel> cartResponse = await this.container.ReadItemAsync<Models.CartModel>(cart.Id, new PartitionKey(cart.PartitionKey));
                 Console.WriteLine("Item in database with id: {0} already exists\n", cartResponse.Resource.Id);
             }
             catch(CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
                 // Create an item in the container representing the Andersen family. Note we provide the value of the partition key for this item, which is "Andersen"
-                ItemResponse<Cart> cartResponse = await this.container.CreateItemAsync<Cart>(cart, new PartitionKey(cart.PartitionKey));
+                ItemResponse<Models.CartModel> cartResponse = await this.container.CreateItemAsync<Models.CartModel>(cart, new PartitionKey(cart.PartitionKey));
 
                 // Note that after creating the item, we can access the body of the item with the Resource property off the ItemResponse. We can also access the RequestCharge property to see the amount of RUs consumed on this request.
                 Console.WriteLine("Created item in database with id: {0} Operation consumed {1} RUs.\n", cartResponse.Resource.Id, cartResponse.RequestCharge);
@@ -178,14 +179,14 @@ namespace CosmosGettingStartedTutorial
             Console.WriteLine("Running query: {0}\n", sqlQueryText);
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
-            FeedIterator<Cart> queryResultSetIterator = this.container.GetItemQueryIterator<Cart>(queryDefinition);
+            FeedIterator<Models.CartModel> queryResultSetIterator = this.container.GetItemQueryIterator<Models.CartModel>(queryDefinition);
 
-            List<Cart> families = new List<Cart>();
+            List<Models.CartModel> families = new List<Models.CartModel>();
 
             while (queryResultSetIterator.HasMoreResults)
             {
-                FeedResponse<Cart> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                foreach (Cart family in currentResultSet)
+                FeedResponse<Models.CartModel> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (Models.CartModel family in currentResultSet)
                 {
                     families.Add(family);
                     Console.WriteLine("\tRead {0}\n", family);
@@ -200,7 +201,7 @@ namespace CosmosGettingStartedTutorial
         /// </summary>
         private async Task ReplaceCartItemAsync()
         {
-            ItemResponse<Cart> cartResponse = await this.container.ReadItemAsync<Cart>("testid", new PartitionKey("test"));
+            ItemResponse<Models.CartModel> cartResponse = await this.container.ReadItemAsync<Models.CartModel>("testid", new PartitionKey("test"));
             var itemBody = cartResponse.Resource;
             
             // update registration status from false to true
@@ -209,7 +210,7 @@ namespace CosmosGettingStartedTutorial
             itemBody.BuyerID = "updatetestbuyerid";
 
             // replace the item with the updated content
-            cartResponse = await this.container.ReplaceItemAsync<Cart>(itemBody, itemBody.Id, new PartitionKey(itemBody.PartitionKey));
+            cartResponse = await this.container.ReplaceItemAsync<Models.CartModel>(itemBody, itemBody.Id, new PartitionKey(itemBody.PartitionKey));
             Console.WriteLine("Updated Cart [{0},{1}].\n \tBody is now: {2}\n", itemBody.BuyerID, itemBody.Id, cartResponse.Resource);
         }
         // </ReplaceFamilyItemAsync>
@@ -224,7 +225,7 @@ namespace CosmosGettingStartedTutorial
             var cartId = "testid";
 
             // Delete an item. Note we must provide the partition key value and id of the item to delete
-            ItemResponse<Cart> cartResponse = await this.container.DeleteItemAsync<Cart>(cartId,new PartitionKey(partitionKeyValue));
+            ItemResponse<Models.CartModel> cartResponse = await this.container.DeleteItemAsync<Models.CartModel>(cartId,new PartitionKey(partitionKeyValue));
             Console.WriteLine("Deleted Cart [{0},{1}]\n", partitionKeyValue, cartId);
         }
         // </DeleteFamilyItemAsync>
