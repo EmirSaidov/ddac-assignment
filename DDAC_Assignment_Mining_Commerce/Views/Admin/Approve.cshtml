@@ -40,7 +40,7 @@
         {
         <tr>
             <td>
-                <img src="@Url.Content(_blob.getBlobURLFromStorage("profilepicture",seller.user.getProfilePicName(),seller.user.image_url))" height="150" width="150" class="rounded-circle" />
+                <img src="@Url.Content(seller.user.getProfilePicture(_blob))" height="150" width="150" class="rounded-circle" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => seller.user.fullname)

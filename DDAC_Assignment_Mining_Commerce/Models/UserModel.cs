@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +57,26 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         public string getProfilePicName() {
             return "user_profile_" + this.ID+"_"+".jpg";
+        }
+
+        public void UploadProfilePicture(IFormFile image, BlobService _blob)
+        {
+            if (image != null)
+            {
+                try
+                {
+                    _blob.uploadImgToBlobContainer("profilepicture", this.getProfilePicName(), image);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Profile Picture Upload Failed+ex");
+                    Debug.WriteLine(ex);
+                }
+            }
+        }
+
+        public string getProfilePicture(BlobService _blob) {
+            return _blob.getBlobURLFromStorage("profilepicture", this.getProfilePicName(), this.image_url);
         }
 
     }
