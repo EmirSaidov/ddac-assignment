@@ -31,7 +31,7 @@
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="RegisterSeller" method="post">
+        <form asp-action="RegisterSeller" method="post"  enctype="multipart/form-data">
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>

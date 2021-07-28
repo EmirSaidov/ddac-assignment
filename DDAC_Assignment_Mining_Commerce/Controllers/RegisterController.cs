@@ -71,7 +71,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterSeller(SellerModel seller)
+        public async Task<IActionResult> RegisterSeller(SellerModel seller, IFormFile profile_picture)
         {
             if (ModelState.IsValid)
             {
@@ -80,6 +80,18 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.User.AddAsync(seller.user);
                     await this._context.Seller.AddAsync(seller);
                     await this._context.SaveChangesAsync();
+                    if (profile_picture != null)
+                    {
+                        try
+                        {
+                            this._blob.uploadImgToBlobContainer("profilepicture", seller.user.getProfilePicName(), profile_picture);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine("Profile Picture Upload Failed+ex");
+                            Debug.WriteLine(ex);
+                        }
+                    }
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
