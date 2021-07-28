@@ -7,14 +7,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
+using DDAC_Assignment_Mining_Commerce.Services;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
     public class UserController : Controller
     {
         private readonly MiningCommerceContext _context;
-        public UserController(MiningCommerceContext _context) {
+        private readonly BlobService _blob;
+        public UserController(MiningCommerceContext _context,BlobService _blob) {
             this._context = _context;
+            this._blob = _blob;
         }
 
         public IActionResult Edit()
@@ -59,7 +62,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBuyer(BuyerModel buyer)
+        public async Task<IActionResult> EditBuyer(BuyerModel buyer, IFormFile profile_picture)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +75,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                             _context.Entry(user_context).State = EntityState.Detached;
                             _context.Update(buyer);
                             await _context.SaveChangesAsync();
+                            buyer.user.UploadProfilePicture(profile_picture,this._blob);
                             HttpContext.Session.Set<BuyerModel>("AuthRole", buyer);
                             HttpContext.Session.Set<UserModel>("AuthUser", buyer.user);
                             TempData["edit_status"] = "Profile is updated";
@@ -96,7 +100,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditSeller(SellerModel seller)
+        public async Task<IActionResult> EditSeller(SellerModel seller,IFormFile profile_picture)
         {
             if (ModelState.IsValid)
             {
@@ -109,6 +113,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                         _context.Entry(user_context).State = EntityState.Detached;
                         _context.Update(seller);
                         await _context.SaveChangesAsync();
+                        seller.user.UploadProfilePicture(profile_picture, this._blob);
                         HttpContext.Session.Set<SellerModel>("AuthRole", seller);
                         HttpContext.Session.Set<UserModel>("AuthUser", seller.user);
                         TempData["edit_status"] = "Profile is updated";
