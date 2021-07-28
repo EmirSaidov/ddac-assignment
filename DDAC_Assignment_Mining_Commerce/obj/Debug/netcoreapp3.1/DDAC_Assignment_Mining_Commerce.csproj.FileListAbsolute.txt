@@ -330,3 +330,14 @@ C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Minin
 C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Cart.cshtml.g.cs
 C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Pay.cshtml.g.cs
 C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Products\Receipt.cshtml.g.cs
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.ServiceInterop.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Cosmos.CRTCompat.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\App.config
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\DDAC_Assignment_Mining_Commerce.dll.config
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.Client.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.Core.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.Direct.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\Cosmos.CRTCompat.dll
+C:\Users\User\Source\Repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll

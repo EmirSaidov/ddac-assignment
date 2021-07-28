@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
-    public class ProductController : Controller
+    public class DisplayProductController : Controller
     {
         private readonly MiningCommerceContext _context;
-        public ProductController(MiningCommerceContext _context)
+        public DisplayProductController(MiningCommerceContext _context)
         {
             this._context = _context;
         }

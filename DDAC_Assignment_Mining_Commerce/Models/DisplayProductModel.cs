@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DDAC_Assignment_Mining_Commerce.Models
 {
-    public class ProductModel
+    public class DisplayProductModel
     {
         public int ID { get; set; }
 
