@@ -75,7 +75,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                         HttpContext.Session.Set<AdminModel>("AuthRole", isAdmin);
                         HttpContext.Session.Set<UserType>("UserType", UserType.ADMIN);
                     }
-                    this._analytics.pushAnalytics<LoginAnalytic>(new LoginAnalytic(user.ID));
+                    await this._analytics.pushAnalytics<LoginAnalytic>(new LoginAnalytic(user.ID));
                     return RedirectToAction(actionName: "Index", controllerName: "Home");
                 }
                 else { ModelState.AddModelError("ValidationError", "Login Invalid! Account does not exists"); }

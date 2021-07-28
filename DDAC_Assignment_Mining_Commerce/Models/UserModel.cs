@@ -1,7 +1,11 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using DDAC_Assignment_Mining_Commerce.Helper;
+using DDAC_Assignment_Mining_Commerce.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +13,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 {
     public class UserModel
     {
+        public UserModel() { }
+
         public int ID { get; set; }
 
         [Display(Name ="Full Name")]
@@ -42,6 +48,11 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         [DataType(DataType.Password)]
         [Required]
         public string password { get; set; }
+
+
+        public string getProfilePicName() {
+            return "user_profile_" + this.ID+"_"+".jpg";
+        }
     }
 
     public enum UserType{ 
