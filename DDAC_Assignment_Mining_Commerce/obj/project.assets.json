@@ -10176,24 +10176,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Jaydon\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Source\\Repos\\DDAC_Assignment_Mining_Commerce_3\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
+      "projectUniqueName": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
       "projectName": "DDAC_Assignment_Mining_Commerce",
-      "projectPath": "C:\\Users\\User\\Source\\Repos\\DDAC_Assignment_Mining_Commerce_3\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Source\\Repos\\DDAC_Assignment_Mining_Commerce_3\\DDAC_Assignment_Mining_Commerce\\obj\\",
+      "projectPath": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
+      "packagesPath": "C:\\Users\\Jaydon\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Jaydon\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

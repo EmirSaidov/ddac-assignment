@@ -26,15 +26,15 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         public IActionResult Pay()
         {
-            return View("../DisplayProduct/Pay");
+            return View("../DisplayProducts/Pay");
         }
         public IActionResult Receipt()
         {
-            return View("../DisplayProduct/Receipt");
+            return View("../DisplayProducts/Receipt");
         }
         public IActionResult Cart()
         {
-            return View("../DisplayProduct/Cart");
+            return View("../DisplayProducts/Cart");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

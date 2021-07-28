@@ -30,7 +30,7 @@
                     <a class="nav-link text-dark" id="product_view" asp-controller="Products" asp-action="Display">View Product</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" id="store_view" asp-controller="Cart" asp-action="DisplayCart">Cart</a>
+                    <a class="nav-link text-dark" id="store_view" asp-controller="DisplayProduct" asp-action="Cart">Cart</a>
                 </li>
                 break;
             case UserType.SELLER:
@@ -46,10 +46,19 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" id="approve_seller" asp-controller="Admin" asp-action="Approve">Approve Seller</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="Report" asp-controller="Admin" asp-action="Report">View Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="register_admin" asp-controller="Admin" asp-action="Register">Register Admin</a>
+                </li>
                 //Admin Nav Items
                 break;
         }
         //Authenticated User Nav Items
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="View">View Profile</a>
+        </li>
         <li class="nav-item">
             <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="Edit">Edit Profile</a>
         </li>

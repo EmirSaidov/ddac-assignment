@@ -20,12 +20,19 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         }
 
         public async Task<IActionResult> ApproveSeller(int id) {
-            Console.WriteLine("==========");
-            Console.WriteLine(id);
             var seller_entity = _context.Seller.FirstOrDefault<SellerModel>(s => s.ID == id);
             seller_entity.is_approved = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(actionName: "Approve");
+        }
+
+        public async Task<IActionResult> Report(){
+
+            return View("../Admin/Report");
+        }
+
+        public async Task<IActionResult> Register() {
+            return View("../Admin/Register");
         }
     }
 }

@@ -40,6 +40,22 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return View("../User/Edit/Password",AuthUser);
         }
 
+        public IActionResult View()
+        {
+            UserModel AuthUser = HttpContext.Session.Get<UserModel>("AuthUser");
+            switch (HttpContext.Session.Get<UserType>("UserType"))
+            {
+                case UserType.ADMIN:
+                    return View("../User/View/Admin", HttpContext.Session.Get<AdminModel>("AuthRole"));
+                case UserType.BUYER:
+                    return View("../User/View/Buyer", HttpContext.Session.Get<BuyerModel>("AuthRole"));
+                case UserType.SELLER:
+                    return View("../User/View/Seller", HttpContext.Session.Get<SellerModel>("AuthRole"));
+                default:
+                    return RedirectToAction(actionName: "Index", controllerName: "Login");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Password(UserModel user, string ConfirmPassword) {
