@@ -47,6 +47,19 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 		}
 
 		// Add blob item
+		public string uploadImgToBlobContainer(string container_name, string blob_name, IFormFile image) {
+			var blobItem = getContainerInfo(container_name).GetBlockBlobReference(blob_name);
+			try
+			{
+				blobItem.UploadFromStreamAsync(image.OpenReadStream()).Wait();
+				return blobItem.Uri.ToString();
+			}
+			catch (Exception ex) {
+				throw ex;
+			}
+			
+		}
+
 		public string uploadToProductContainer(IFormFile image)
         {
 			var blobItem = getContainerInfo("product").GetBlockBlobReference(generateBlobName(image));

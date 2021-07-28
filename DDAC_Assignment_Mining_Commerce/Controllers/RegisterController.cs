@@ -1,9 +1,11 @@
 ﻿using DDAC_Assignment_Mining_Commerce.Models;
 using DDAC_Assignment_Mining_Commerce.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +14,13 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     public class RegisterController : Controller
     {
         private readonly MiningCommerceContext _context;
-        public RegisterController(MiningCommerceContext _context) {
+        private readonly BlobService _blob;
+        public RegisterController(
+            MiningCommerceContext _context,
+            BlobService _blob
+            ) {
             this._context = _context;
+            this._blob = _blob;
         }
 
         public IActionResult Index()
@@ -34,7 +41,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterBuyer( BuyerModel buyer)
+        public async Task<IActionResult> RegisterBuyer( BuyerModel buyer, IFormFile profile_picture)
         {
             if (ModelState.IsValid)
             {
@@ -42,8 +49,20 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.User.AddAsync(buyer.user);
                     await this._context.Buyer.AddAsync(buyer);
                     await this._context.SaveChangesAsync();
+                    if (profile_picture != null)
+                    {
+                        try
+                        {
+                            this._blob.uploadImgToBlobContainer("profilepicture", buyer.user.getProfilePicName(), profile_picture);
+                        }
+                        catch (Exception ex) {
+                            Debug.WriteLine("Profile Picture Upload Failed+ex");
+                            Debug.WriteLine(ex);
+                        }
+                    }
+                   
                     //Redirect to Login
-                    return RedirectToAction(actionName: "Login", controllerName: "Login");
+                    return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
                 else { ModelState.AddModelError(string.Empty, "Account with Email Already Exists"); }
             }

@@ -2,15 +2,43 @@
 @{
     ViewData["Title"] = "Seller Registration";
 }
+<script type="text/javascript">
+    function PreviewImage() {
+        // Where you will display your image
+        //var preview = document.querySelector('img');
+        var preview = document.getElementById("previewImage");
+        // The button where the user chooses the local image to display
+        //var file = document.querySelector('input[type=file]').files[0];
+        var file = document.getElementById("profile_picture").files[0];
+        // FileReader instance
+        var reader = new FileReader();
+
+        // When the image is loaded we will set it as source of
+        // our img tag
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+        if (file) {
+            // Load image as a base64 encoded URI
+            reader.readAsDataURL(file);
+        }
+        else {
+            preview.src = "";
+        }
+    }
+</script>
 
 <h1>@ViewData["Title"]</h1>
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="RegisterSeller" method="post">
             <h4>Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <img src="~/assets/default_profile.jpg" class="img-responsive rounded-circle" id="previewImage" width="150" height="150"/>
+                <input id="profile_picture" type="file" accept="image/png, image/jpg, image/jpeg" name="profile_picture" onchange="PreviewImage()" />
+            </div>
             <div class="form-group">
                 <label asp-for="@Model.user.fullname"></label>
                 <input asp-for="@Model.user.fullname" class="form-control" />
