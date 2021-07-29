@@ -6,6 +6,12 @@
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     var isCurrentUser = Model.user.ID == HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").ID;
 }
+@if (ViewData["ReturnURL"] != null)
+{
+    <a href="@ViewData["ReturnURL"]" class="btn btn-primary"></a>
+
+}
+
 
 @if (isCurrentUser)
 {
