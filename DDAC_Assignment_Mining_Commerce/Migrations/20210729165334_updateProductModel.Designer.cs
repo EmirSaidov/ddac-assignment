@@ -4,14 +4,16 @@ using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DDAC_Assignment_Mining_Commerce.Migrations
 {
     [DbContext(typeof(MiningCommerceContext))]
-    partial class MiningCommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20210729165334_updateProductModel")]
+    partial class updateProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

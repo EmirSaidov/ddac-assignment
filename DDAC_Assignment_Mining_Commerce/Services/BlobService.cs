@@ -30,12 +30,6 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 			return container.CreateIfNotExistsAsync().Result ? getContainerInfo(container_name) : container;
 		}
 
-		// Generate blob name
-		private string generateBlobName(IFormFile image)
-		{
-			return DateTime.Now.ToString("yyyyMMddHHmmssffff") + Path.GetExtension(image.FileName).ToLower();
-		}
-
 		private async Task<Boolean> checkIfBlobExists(string container_name, string blob_name)
         {
 			try
@@ -71,13 +65,6 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 			blobItem.UploadFromStreamAsync(image.OpenReadStream()).Wait();
 			return blobItem.Uri.ToString();
 		}
-
-		public string uploadToProductContainer(IFormFile image)
-        {
-			var blobItem = getContainerInfo("product").GetBlockBlobReference(generateBlobName(image));
-			blobItem.UploadFromStreamAsync(image.OpenReadStream()).Wait();
-			return blobItem.Uri.ToString();
-        }
 
         // Delete blob item
         public bool deleteFromProductContainer(string uri)

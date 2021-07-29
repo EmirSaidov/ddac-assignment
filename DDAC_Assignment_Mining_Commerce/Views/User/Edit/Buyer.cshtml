@@ -55,6 +55,11 @@
                 <span asp-validation-for="@Model.user.email" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="@Model.user.DOB"></label>
+                <input asp-for="@Model.user.DOB" class="form-control" />
+                <span asp-validation-for="@Model.user.DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="@Model.user.phone"></label>
                 <input asp-for="@Model.user.phone" class="form-control" />
                 <span asp-validation-for="@Model.user.phone" class="text-danger"></span>
@@ -89,3 +94,4 @@
             <button asp-action="Password" class="btn btn-secondary">Change Password</button>
         </form>
     </div>
+</div>

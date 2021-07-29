@@ -52,7 +52,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public string password { get; set; }
 
         [NotMapped]
-        public string image_url = "/assets/default_profile.jpg";
+        public string default_image_URL = "/assets/default_profile.jpg";
         [NotMapped]
         public string roleTable = "userRole";
 
@@ -78,7 +78,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         }
 
         public string getProfilePicture(BlobService _blob) {
-            return _blob.getBlobURLFromStorage("profilepicture", this.getProfilePicName(), this.image_url);
+            return _blob.getBlobURLFromStorage("profilepicture", this.getProfilePicName(), this.default_image_URL);
         }
 
 

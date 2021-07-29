@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+    @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob
 }
 
 <h1>Delete</h1>
@@ -12,10 +13,10 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.imageUri)
+            Product
         </dt>
         <dd class="col-sm-10">
-            <img src="@Url.Content(Model.imageUri)" width=250 />
+            <img src="@Url.Content(Model.getProductPicture(_blob))" width=250 />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.productName)

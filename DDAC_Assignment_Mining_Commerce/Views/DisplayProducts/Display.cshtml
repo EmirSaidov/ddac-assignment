@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Display";
+    @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob;
 }
 
 <h1>Catalogue</h1>
@@ -12,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.imageUri)
+                Product
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.productName)
@@ -43,7 +44,7 @@
             <tr>
                 <td>
                     <div width="150" height="10">
-                        <img src="@Url.Content(item.imageUri)" width=150 />
+                        <img src="@Url.Content(item.getProductPicture(_blob))" width=150 />
                     </div>
                 </td>
                 <td>
