@@ -43,7 +43,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return View("../User/Edit/Password",AuthUser);
         }
 
-        public async Task<IActionResult> ViewUser(int id, string? returnURL = null) {
+        public async Task<IActionResult> ViewUser(int id, string returnURL = null) {
             UserModel user = this._context.User.FirstOrDefault<UserModel>(user => user.ID == id);
             ViewData["returnURL"] = Request.Headers["Referer"].ToString();
             if (user != null)
@@ -67,19 +67,19 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                 }
                 if (isBuyer != null)
                 {
-                    if (roleCheck == "") { Task.Run(() => isBuyer.user.setUserRole(_cosmosTable, UserType.BUYER)); }
+                    if (roleCheck == "") {await Task.Run(() => isBuyer.user.setUserRole(_cosmosTable, UserType.BUYER)); }
                     return View("../User/View/Buyer", isBuyer);
                    
                 }
                 else if (isSeller != null)
                 {
-                    if (roleCheck == "") { Task.Run(() => isSeller.user.setUserRole(_cosmosTable, UserType.SELLER)); }
+                    if (roleCheck == "") { await Task.Run(() => isSeller.user.setUserRole(_cosmosTable, UserType.SELLER)); }
                     return View("../User/View/Seller", isSeller);
 
                 }
                 else if (isAdmin != null)
                 {
-                    if (roleCheck == "") { Task.Run(() => isAdmin.user.setUserRole(_cosmosTable, UserType.ADMIN)); }
+                    if (roleCheck == "") { await Task.Run(() => isAdmin.user.setUserRole(_cosmosTable, UserType.ADMIN)); }
                     return View("../User/View/Admin", isAdmin);
                 }
             }
