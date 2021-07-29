@@ -26,12 +26,12 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return RedirectToAction(actionName: "Approve");
         }
 
-        public async Task<IActionResult> Report(){
+        public IActionResult Report(){
 
             return View("../Admin/Report");
         }
 
-        public async Task<IActionResult> Register() {
+        public IActionResult Register() {
             return View("../Admin/Register");
         }
     }

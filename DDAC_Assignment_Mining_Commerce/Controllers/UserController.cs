@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
 using DDAC_Assignment_Mining_Commerce.Services;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
@@ -15,9 +16,11 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     {
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blob;
-        public UserController(MiningCommerceContext _context,BlobService _blob) {
+        private readonly CosmosTableService _cosmosTable;
+        public UserController(MiningCommerceContext _context,BlobService _blob, CosmosTableService _cosmosTable) {
             this._context = _context;
             this._blob = _blob;
+            this._cosmosTable = _cosmosTable;
         }
 
         public IActionResult Edit()
@@ -40,7 +43,50 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return View("../User/Edit/Password",AuthUser);
         }
 
-        public IActionResult View()
+        public async Task<IActionResult> ViewUser(int id, string? returnURL = null) {
+            UserModel user = this._context.User.FirstOrDefault<UserModel>(user => user.ID == id);
+            ViewData["returnURL"] = Request.Headers["Referer"].ToString();
+            if (user != null)
+            {
+                var roleCheck = user.getUserRole(_cosmosTable).Result;
+                BuyerModel isBuyer = null;
+                SellerModel isSeller = null;
+                AdminModel isAdmin = null;
+                //Extra steps taken for guarding customers without role in Cosmos Table
+                if (roleCheck == "" || roleCheck == "B")
+                {
+                    isBuyer = this._context.Buyer.FirstOrDefault<BuyerModel>(buyer => buyer.user.ID == user.ID);
+                }
+                if (roleCheck == "" || roleCheck == "S")
+                {
+                    isSeller = this._context.Seller.FirstOrDefault<SellerModel>(seller => seller.user.ID == user.ID);
+                }
+                if (roleCheck == "" || roleCheck == "A")
+                {
+                    isAdmin = this._context.Admin.FirstOrDefault<AdminModel>(admin => admin.user.ID == user.ID);
+                }
+                if (isBuyer != null)
+                {
+                    if (roleCheck == "") { Task.Run(() => isBuyer.user.setUserRole(_cosmosTable, UserType.BUYER)); }
+                    return View("../User/View/Buyer", isBuyer);
+                   
+                }
+                else if (isSeller != null)
+                {
+                    if (roleCheck == "") { Task.Run(() => isSeller.user.setUserRole(_cosmosTable, UserType.SELLER)); }
+                    return View("../User/View/Seller", isSeller);
+
+                }
+                else if (isAdmin != null)
+                {
+                    if (roleCheck == "") { Task.Run(() => isAdmin.user.setUserRole(_cosmosTable, UserType.ADMIN)); }
+                    return View("../User/View/Admin", isAdmin);
+                }
+            }
+            return View(new ErrorViewModel());
+        }
+
+        public IActionResult ViewProfile()
         {
             UserModel AuthUser = HttpContext.Session.Get<UserModel>("AuthUser");
             switch (HttpContext.Session.Get<UserType>("UserType"))

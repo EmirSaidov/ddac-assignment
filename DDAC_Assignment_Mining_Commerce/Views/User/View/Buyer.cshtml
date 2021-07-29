@@ -6,8 +6,14 @@
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     var isCurrentUser = Model.user.ID == HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").ID;
 }
+@if (ViewData["ReturnURL"] != null)
+{
+    <a href="@ViewData["ReturnURL"]" class="btn btn-primary"></a>
 
-@if (isCurrentUser) { 
+}
+
+@if (isCurrentUser)
+{
     <h1>@ViewData["Title"]</h1>
 }
 
@@ -16,18 +22,19 @@
     <div class="col-md-4">
         <table class="table">
             <tr>
-                <th>@Html.DisplayNameFor(model=>model.address)</th>
-                <td>@Html.DisplayFor(model=>model.address)</td>
+                <th>@Html.DisplayNameFor(model => model.address)</th>
+                <td>@Html.DisplayFor(model => model.address)</td>
             </tr>
             <tr>
-                <th>@Html.DisplayNameFor(model=>model.shipping_address)</th>
-                <td>@Html.DisplayNameFor(model=>model.shipping_address)</td>
+                <th>@Html.DisplayNameFor(model => model.shipping_address)</th>
+                <td>@Html.DisplayNameFor(model => model.shipping_address)</td>
             </tr>
         </table>
     </div>
 </div>
 
-@if (isCurrentUser) { 
+@if (isCurrentUser)
+{
     <a href="./Edit" class="btn btn-primary">
         Edit Profile
     </a>
