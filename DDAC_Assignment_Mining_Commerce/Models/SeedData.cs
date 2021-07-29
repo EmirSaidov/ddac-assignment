@@ -141,7 +141,6 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 {
                     seller = sellers["seller_1@mail.com"],
                     sellerID = sellers["seller_1@mail.com"].ID,
-                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117905.png",
                     productName = "Gold Ore",
                     productPrice = 100,
                     productMass = 20,
@@ -151,7 +150,6 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 {
                     seller = sellers["seller_1@mail.com"],
                     sellerID = sellers["seller_1@mail.com"].ID,
-                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117906.png",
                     productName = "Copper Ore",
                     productPrice = 10,
                     productMass = 800,
@@ -161,7 +159,6 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 {
                     seller = sellers["seller_1@mail.com"],
                     sellerID = sellers["seller_1@mail.com"].ID,
-                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117907.png",
                     productName = "Tungsten Ore",
                     productPrice = 15,
                     productMass = 500,
@@ -171,7 +168,6 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 {
                     seller = sellers["seller_2@mail.com"],
                     sellerID = sellers["seller_2@mail.com"].ID,
-                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117908.png",
                     productName = "Iron Ore",
                     productPrice = 20,
                     productMass = 500,
@@ -181,7 +177,6 @@ namespace DDAC_Assignment_Mining_Commerce.Models
                 {
                     seller = sellers["seller_2@mail.com"],
                     sellerID = sellers["seller_2@mail.com"].ID,
-                    imageUri = "https://miningassignment.blob.core.windows.net/product/202107260125117909.png",
                     productName = "Silver Ore",
                     productPrice = 23,
                     productMass = 700,

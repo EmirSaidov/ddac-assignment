@@ -83,12 +83,12 @@ namespace MVCProductShop2011Lab4.Controllers
             Debug.WriteLine(productPrice);
             Debug.WriteLine(product.productPrice);
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
-            if (image != null) product.imageUri = _blobService.uploadToProductContainer(image);
 
             if (ModelState.IsValid)
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+                if (image != null) { product.UploadProfilePicture(image, _blobService); }
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -118,11 +118,6 @@ namespace MVCProductShop2011Lab4.Controllers
         public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productMass, productDescription")] ProductModel product)
         {
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
-            if (image != null)
-            {
-                _blobService.deleteFromProductContainer(product.imageUri);
-                product.imageUri = _blobService.uploadToProductContainer(image);
-            }
 
             if (ModelState.IsValid)
             {
@@ -130,6 +125,10 @@ namespace MVCProductShop2011Lab4.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    if (image != null)
+                    {
+                        product.UploadProfilePicture(image, _blobService);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -171,7 +170,7 @@ namespace MVCProductShop2011Lab4.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
-            _blobService.deleteFromProductContainer(product.imageUri);
+            _blobService.deleteFromProductContainer(product.getProductPicName());
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
