@@ -1,7 +1,7 @@
 ﻿using DDAC_Assignment_Mining_Commerce.Helper;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -53,6 +53,8 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         [NotMapped]
         public string image_url = "/assets/default_profile.jpg";
+        [NotMapped]
+        public string roleTable = "userRole";
 
 
         public string getProfilePicName() {
@@ -79,6 +81,45 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             return _blob.getBlobURLFromStorage("profilepicture", this.getProfilePicName(), this.image_url);
         }
 
+
+        public async Task setUserRole(CosmosTableService _table, UserType userType) {
+            CloudTable table = _table.getTable(this.roleTable);
+            string type = userType == UserType.BUYER ? "B" : userType == UserType.SELLER ? "S" : "A";
+            try
+            {
+                TableOperation insertUserRole = TableOperation.InsertOrReplace(new UserRole(this.ID.ToString(), type));
+                TableResult result = await table.ExecuteAsync(insertUserRole);
+                UserRole role = result.Result as UserRole;
+            }
+            catch (Exception ex) {
+                Console.WriteLine("Error in inserting user");
+                Console.WriteLine(ex.Message);
+            }
+            
+        }
+
+        public async Task<string> getUserRole(CosmosTableService _table) {
+            try
+            {
+                CloudTable table = _table.getTable(this.roleTable);
+                TableOperation retrieveUserRole = TableOperation.Retrieve<UserRole>("partitionKey", this.ID.ToString());
+                TableResult result = await table.ExecuteAsync(retrieveUserRole);
+                UserRole role = result.Result as UserRole;
+                if (role != null)
+                {
+                    return role.userType;
+                }
+                else {
+                    return "";
+                }
+                
+            }
+            catch (StorageException ex) {
+                Console.WriteLine(ex.Message);
+                return "";
+            }
+                        
+        }
     }
 
     public enum UserType{ 
@@ -88,5 +129,17 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         SELLER,
         [Display(Name = "Buyer")]
         BUYER
+    }
+
+    public class UserRole:TableEntity {
+        public UserRole() { }
+        public UserRole(string id, string userType) {
+            this.user_id = id;
+            this.userType = userType;
+            this.PartitionKey = "partitionKey";
+            this.RowKey = id.ToString();
+        }
+        public string user_id { get; set; }
+        public string userType { get; set; } = null;
     }
 }

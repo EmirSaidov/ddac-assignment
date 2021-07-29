@@ -15,12 +15,15 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     {
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blob;
+        private readonly CosmosTableService _cosmosTable;
         public RegisterController(
             MiningCommerceContext _context,
-            BlobService _blob
+            BlobService _blob,
+            CosmosTableService _cosmosTable
             ) {
             this._context = _context;
             this._blob = _blob;
+            this._cosmosTable = _cosmosTable;
         }
 
         public IActionResult Index()
@@ -50,6 +53,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.Buyer.AddAsync(buyer);
                     await this._context.SaveChangesAsync();
                     buyer.user.UploadProfilePicture(profile_picture,this._blob);
+                    await buyer.user.setUserRole(_cosmosTable, UserType.BUYER);
                    
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
@@ -71,6 +75,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.Seller.AddAsync(seller);
                     await this._context.SaveChangesAsync();
                     seller.user.UploadProfilePicture(profile_picture, this._blob);
+                    await seller.user.setUserRole(_cosmosTable, UserType.SELLER);
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }

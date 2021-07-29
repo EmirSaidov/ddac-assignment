@@ -16,5 +16,9 @@ namespace DDAC_Assignment_Mining_Commerce.Services
         public string getConnectionString(string settingKey) {
             return this._config.GetValue<string>("ConnectionStrings:" + settingKey);
         }
+
+        public string getCosmosProperty(string property) {
+            return this._config.GetValue<string>("MiningCommerceCosmos:" + property);
+        }
     }
 }
