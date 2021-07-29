@@ -197,6 +197,44 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             }
             return View("../User/Edit/Seller", seller);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAdmin(AdminModel admin, IFormFile profile_picture)
+        {
+            if (ModelState.IsValid)
+            {
+                UserModel user_context = this._context.User.FirstOrDefault<UserModel>(user => user.email.ToLower() == admin.user.email.ToLower());
+                if (user_context == null || user_context.ID == admin.user.ID)
+                {
+                    try
+                    {
+                        //Untrack UserModel
+                        _context.Entry(user_context).State = EntityState.Detached;
+                        _context.Update(admin);
+                        await _context.SaveChangesAsync();
+                        admin.user.UploadProfilePicture(profile_picture, this._blob);
+                        HttpContext.Session.Set<AdminModel>("AuthRole", admin);
+                        HttpContext.Session.Set<UserModel>("AuthUser", admin.user);
+                        TempData["edit_status"] = "Profile is updated";
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (_context.Buyer.Any(e => e.ID == admin.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(actionName: "Edit");
+                }
+                else { ModelState.AddModelError(string.Empty, "Account with Email Already Exists"); }
+            }
+            return View("../User/Edit/Admin", admin);
+        }
     }
 
 }
