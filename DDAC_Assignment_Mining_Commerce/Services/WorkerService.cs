@@ -1,4 +1,6 @@
-﻿using DDAC_Assignment_Mining_Commerce.Models;
+﻿using Azure.Messaging.ServiceBus;
+using DDAC_Assignment_Mining_Commerce.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,18 +31,40 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             {
                 using (var scope = _services.CreateScope())
                 {
-                    var ctx = scope.ServiceProvider.GetRequiredService<TableService>();
-
-                    var subscriptions = await ctx.GetSubscriptionsByPK("1");
-                    var count = 1;
-                    foreach(Subscription subscription in subscriptions)
-                    {
-                        Debug.WriteLine(subscription.buyerID);
-                        Debug.WriteLine(count);
-                        count++;
-                    }   
+                    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                    RunBuyerNotificationProcessor(configuration);
                 }
+                break;
             }
+        }
+
+        private void RunBuyerNotificationProcessor(IConfiguration configuration)
+        {
+            var connString = configuration.GetConnectionString("ServiceBusConnection");
+            var client = new ServiceBusClient(connString);
+            var processor = client.CreateProcessor("buyer-notification", new ServiceBusProcessorOptions());
+
+            // add handler to process messages
+            processor.ProcessMessageAsync += BuyerNotificationMessageHandler;
+
+            // add handler to process any errors
+            processor.ProcessErrorAsync += ErrorHandler;
+
+            // start processing 
+            _ = processor.StartProcessingAsync();
+        }
+
+        async Task BuyerNotificationMessageHandler(ProcessMessageEventArgs args)
+        {
+            string body = args.Message.Body.ToString();
+            Notification notification = JsonSerializer.Deserialize<Notification>(body);
+            await args.CompleteMessageAsync(args.Message);
+        }
+
+        static Task ErrorHandler(ProcessErrorEventArgs args)
+        {
+            Console.WriteLine(args.Exception.ToString());
+            return Task.CompletedTask;
         }
     }
 }

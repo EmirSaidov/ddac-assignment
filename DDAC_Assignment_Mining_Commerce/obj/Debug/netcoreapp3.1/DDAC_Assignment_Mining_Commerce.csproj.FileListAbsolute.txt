@@ -605,3 +605,8 @@ C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mini
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\View\Buyer.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\View\Seller.cshtml.g.cs
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\User\View\User.cshtml.g.cs
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Azure.Core.Amqp.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Azure.Messaging.ServiceBus.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Amqp.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\System.Memory.Data.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll

@@ -1,8 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
 using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.ServiceBus;
-using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -11,40 +9,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 namespace DDAC_Assignment_Mining_Commerce.Services
 {
     public class BusService
     {
-        private IHttpContextAccessor _httpContextAccessor;
         private static string connString;
-        string queueName = "seller-notification";
         ServiceBusClient client;
-        ServiceBusProcessor processor;
 
-        public BusService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public BusService(IConfiguration configuration)
         {
-            this._httpContextAccessor = httpContextAccessor;
-
             connString = configuration.GetConnectionString("ServiceBusConnection");
             client = new ServiceBusClient(connString);
-            processor = client.CreateProcessor(queueName, new ServiceBusProcessorOptions());
-
-            // add handler to process messages
-            processor.ProcessMessageAsync += MessageHandler;
-
-            // add handler to process any errors
-            processor.ProcessErrorAsync += ErrorHandler;
-
-            // start processing 
-            _ = processor.StartProcessingAsync();
         }
 
-        public async Task QueueProductSaleNotification(ProductModel product)
+        public async Task QueueNewProductNotification(ProductModel product)
         {
-            var sender = client.CreateSender(queueName);
+            var sender = client.CreateSender("buyer-notification");
+            Notification notification = new Notification
+            {
+                sellerID = product.sellerID,
+                product = product,
+                type = NotificationType.NewProduct,
+            };
             using ServiceBusMessageBatch message = await sender.CreateMessageBatchAsync();
-            message.TryAddMessage(new ServiceBusMessage($"Message {product.ID}, {product.sellerID}, {product.productName}, {product.productPrice}, {product.productMass}, {product.productDescription}"));
+            message.TryAddMessage(new ServiceBusMessage(JsonSerializer.Serialize(notification)));
             await sender.SendMessagesAsync(message);
             await sender.DisposeAsync();
         }

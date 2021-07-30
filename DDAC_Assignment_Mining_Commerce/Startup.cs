@@ -61,6 +61,7 @@ namespace DDAC_Assignment_Mining_Commerce
             services.AddScoped<CosmosTableService>();
             services.AddScoped<QueueService>();
             services.AddScoped<BusService>();
+            services.AddHostedService<WorkerService>();
 
             //Azure Services
             services.AddAzureClients(builder =>

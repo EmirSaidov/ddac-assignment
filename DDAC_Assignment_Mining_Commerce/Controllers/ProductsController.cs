@@ -17,11 +17,13 @@ namespace MVCProductShop2011Lab4.Controllers
     {
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blobService;
+        private readonly BusService _busService;
 
-        public ProductsController(MiningCommerceContext context, BlobService blobService)
+        public ProductsController(MiningCommerceContext context, BlobService blobService, BusService busService)
         {
             _context = context;
             _blobService = blobService;
+            _busService = busService;
         }
 
         // GET: Products
@@ -59,6 +61,7 @@ namespace MVCProductShop2011Lab4.Controllers
 
             var product = await _context.Product
                 .FirstOrDefaultAsync(m => m.ID == id);
+            _ = _busService.QueueNewProductNotification(product);
             if (product == null)
             {
                 return NotFound();
@@ -89,6 +92,7 @@ namespace MVCProductShop2011Lab4.Controllers
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 if (image != null) { product.UploadProfilePicture(image, _blobService); }
+                _busService.QueueNewProductNotification(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
