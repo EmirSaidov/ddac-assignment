@@ -7,24 +7,26 @@ using System.Threading.Tasks;
 namespace DDAC_Assignment_Mining_Commerce.Models.Analytics
 {
 
-    public class LoginAnalytic : TableEntity, AnalyticModel
+    public class RegisterAnalytic : TableEntity, AnalyticModel
     {
-        public LoginAnalytic() { }
-        public LoginAnalytic(int user_id)
+        public RegisterAnalytic() { }
+        public RegisterAnalytic(int user_id,string role)
         {
             this.user_id = user_id;
             this.month = DateTime.Now.ToString("MM");
             this.year = DateTime.Now.ToString("yy");
             this.PartitionKey = this.month + ":" + this.year;
-            this.RowKey = this.user_id + ":" + this.Timestamp.ToString("dd") + ":" + this.month +":" + this.year;
+            this.RowKey = this.user_id.ToString();
         }
         public int user_id { get; set; }
+        public string role { get; set; }
         public string month;
         public string year;
         TableBatchOperation batch = new TableBatchOperation();
+
         public string tableName()
         {
-            return "Login";
+            return "Registration";
         }
 
         public TableBatchOperation operations()

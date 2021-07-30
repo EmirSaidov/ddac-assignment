@@ -1,4 +1,5 @@
 ﻿using DDAC_Assignment_Mining_Commerce.Models;
+using DDAC_Assignment_Mining_Commerce.Models.Analytics;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,17 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blob;
         private readonly CosmosTableService _cosmosTable;
+        private readonly AnalyticService _analytics;
         public RegisterController(
             MiningCommerceContext _context,
             BlobService _blob,
-            CosmosTableService _cosmosTable
+            CosmosTableService _cosmosTable,
+            AnalyticService _analytics
             ) {
             this._context = _context;
             this._blob = _blob;
             this._cosmosTable = _cosmosTable;
+            this._analytics = _analytics;
         }
 
         public IActionResult Index()
@@ -54,7 +58,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.SaveChangesAsync();
                     buyer.user.UploadProfilePicture(profile_picture,this._blob);
                     await buyer.user.setUserRole(_cosmosTable, UserType.BUYER);
-                   
+                    await this._analytics.pushAnalytics<RegisterAnalytic>(new RegisterAnalytic(buyer.user.ID,"B"));
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
@@ -76,6 +80,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.SaveChangesAsync();
                     seller.user.UploadProfilePicture(profile_picture, this._blob);
                     await seller.user.setUserRole(_cosmosTable, UserType.SELLER);
+                    await this._analytics.pushAnalytics<RegisterAnalytic>(new RegisterAnalytic(seller.user.ID, "S"));
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
