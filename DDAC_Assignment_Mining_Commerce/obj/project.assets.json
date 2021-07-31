@@ -7802,6 +7802,7 @@
       "path": "system.net.websockets/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10176,6 +10177,7 @@
       "path": "system.threading.thread/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10658,23 +10660,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jaydon\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\joshu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
+      "projectUniqueName": "C:\\Users\\joshu\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
       "projectName": "DDAC_Assignment_Mining_Commerce",
-      "projectPath": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
-      "packagesPath": "C:\\Users\\Jaydon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\obj\\",
+      "projectPath": "C:\\Users\\joshu\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce.csproj",
+      "packagesPath": "C:\\Users\\joshu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\joshu\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Jaydon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10773,16 +10771,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\Jaydon\\source\\repos\\DDAC_Assignment_Mining_Commerce\\DDAC_Assignment_Mining_Commerce\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
