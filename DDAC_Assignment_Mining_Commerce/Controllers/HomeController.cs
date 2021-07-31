@@ -1,4 +1,6 @@
-﻿using DDAC_Assignment_Mining_Commerce.Models;
+﻿using DDAC_Assignment_Mining_Commerce.Helper;
+using DDAC_Assignment_Mining_Commerce.Models;
+using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,10 +14,12 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly TableService _tableService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, TableService tableService)
         {
             _logger = logger;
+            _tableService = tableService;
         }
 
         public IActionResult Index()
@@ -26,6 +30,14 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public async Task ClearNotificationsAsync()
+        {
+            string buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID.ToString();
+            await _tableService.DeleteNotificationsByPK(buyerID);
+            List<Notification> notifications = await _tableService.GetNotificationsByPK(buyerID);
+            HttpContext.Session.Set<IEnumerable<Notification>>("Notifications", notifications);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

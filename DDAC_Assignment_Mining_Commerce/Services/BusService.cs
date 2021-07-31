@@ -1,22 +1,17 @@
 ﻿using Azure.Messaging.ServiceBus;
 using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json;
+using System;
 
 namespace DDAC_Assignment_Mining_Commerce.Services
 {
     public class BusService
     {
         private static string connString;
-        ServiceBusClient client;
+        private readonly ServiceBusClient client;
 
         public BusService(IConfiguration configuration)
         {
@@ -24,31 +19,26 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             client = new ServiceBusClient(connString);
         }
 
-        public async Task QueueNewProductNotification(ProductModel product)
+        public async Task QueueNewProductNotification(NotificationType notificationType, ProductModel product, double? productOldPrice, double? productNewPrice)
         {
-            var sender = client.CreateSender("buyer-notification");
+            ServiceBusSender sender = client.CreateSender("buyer-notification");
             Notification notification = new Notification
             {
-                sellerID = product.sellerID,
-                product = product,
-                type = NotificationType.NewProduct,
+                SellerID = product.sellerID,
+                ProductID = product.ID,
+                Product = product,
+                Type = notificationType,
             };
-            using ServiceBusMessageBatch message = await sender.CreateMessageBatchAsync();
-            message.TryAddMessage(new ServiceBusMessage(JsonSerializer.Serialize(notification)));
-            await sender.SendMessagesAsync(message);
+
+            ServiceBusMessage message = new ServiceBusMessage(JsonSerializer.Serialize(notification));
+            if (productOldPrice != null && productNewPrice != null)
+            {
+                message.ApplicationProperties.Add("productOldPrice", productOldPrice);
+                message.ApplicationProperties.Add("productNewPrice", productNewPrice);
+            }
+
+            await sender.SendMessageAsync(message);
             await sender.DisposeAsync();
-        }
-
-        async Task MessageHandler(ProcessMessageEventArgs args)
-        {
-            string body = args.Message.Body.ToString();
-            await args.CompleteMessageAsync(args.Message);
-        }
-
-        static Task ErrorHandler(ProcessErrorEventArgs args)
-        {
-            Console.WriteLine(args.Exception.ToString());
-            return Task.CompletedTask;
         }
     }
 }

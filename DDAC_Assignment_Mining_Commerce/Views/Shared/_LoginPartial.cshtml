@@ -1,70 +1,106 @@
 ﻿
 @using DDAC_Assignment_Mining_Commerce.Helper
 @using Microsoft.AspNetCore.Http
+@using System.Diagnostics;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/json2/0.1/json2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[id*=clear_notifications]').click(function () {
+                $.post("Home/ClearNotifications");
+                var count = document.getElementById("dropdown_items").childElementCount;
+                for (let index = 0; index < count - 2; index++) {
+                    console.log("notification_" + index);
+                    var notification = document.getElementById("notification_" + index);
+                    if (notification != null) {
+                        notification.remove()
+                    }
+                }
+            });
+        });
+    </script>
 
-
-<ul class="navbar-nav">
-    @if (HttpContextAccessor.HttpContext.Session.Get("AuthUser") == null)
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="register_buyer" asp-controller="Register" asp-action="Buyer">Register as Buyer</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="register_seller" asp-controller="Register" asp-action="Seller">Register as Seller</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="login" asp-controller="Login" asp-action="Index">Login</a>
-        </li>
-    }
-    else
-    {
-        var username = HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").fullname;
-        <li>Welcome @username</li>
-        switch (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType"))
+    <ul class="navbar-nav">
+        @if (HttpContextAccessor.HttpContext.Session.Get("AuthUser") == null)
         {
-            case UserType.BUYER:
-                //Buyer Nav Items
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="product_view" asp-controller="Products" asp-action="Display">View Product</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="store_view" asp-controller="DisplayProduct" asp-action="Cart">Cart</a>
-                </li>
-                break;
-            case UserType.SELLER:
-                //Seller Nav Items
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="product_view" asp-controller="Products" asp-action="Index">Product List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="store_view" asp-controller="Store" asp-action="Details">Store Profile</a>
-                </li>
-                break;
-            case UserType.ADMIN:
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="approve_seller" asp-controller="Admin" asp-action="Approve">Approve Seller</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="Report" asp-controller="Report" asp-action="Index">View Report</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" id="register_admin" asp-controller="Admin" asp-action="Register">Register Admin</a>
-                </li>
-                //Admin Nav Items
-                break;
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="register_buyer" asp-controller="Register" asp-action="Buyer">Register as Buyer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="register_seller" asp-controller="Register" asp-action="Seller">Register as Seller</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="login" asp-controller="Login" asp-action="Index">Login</a>
+            </li>
         }
-        //Authenticated User Nav Items
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="ViewProfile">View Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="Edit">Edit Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="logout" asp-controller="Login" asp-action="Logout">Logout</a>
-        </li>
-    }
+        else
+        {
+            int index = -1;
+            var username = HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").fullname;
+            var notifications = HttpContextAccessor.HttpContext.Session.Get<IEnumerable<Notification>>("Notifications");
+            <li>Welcome @username</li>
+            switch (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType"))
+            {
+                case UserType.BUYER:
+                    //Buyer Nav Items
+                    <li class="nav-item">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Notifications
+                            </button>
+                            <div class="dropdown-menu" id="dropdown_items">
+                                @foreach (Notification notification in notifications)
+                                {
+                                    index++;
+                                    var id = string.Format("notification_{0}", index);
+                                    <button class="dropdown-item" id="@{@id}">@notification.Message</button>
+                                }
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" id="clear_notifications" asp-controller="Home" asp-action="ClearNotifications">Clear Notifications</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="product_view" asp-controller="Products" asp-action="Display">View Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="store_view" asp-controller="DisplayProduct" asp-action="Cart">Cart</a>
+                    </li>
+                    break;
+                case UserType.SELLER:
+                    //Seller Nav Items
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="product_view" asp-controller="Products" asp-action="Index">Product List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="store_view" asp-controller="Store" asp-action="Details">Store Profile</a>
+                    </li>
+                    break;
+                case UserType.ADMIN:
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="approve_seller" asp-controller="Admin" asp-action="Approve">Approve Seller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="Report" asp-controller="Report" asp-action="Index">View Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="register_admin" asp-controller="Admin" asp-action="Register">Register Admin</a>
+                    </li>
+                    //Admin Nav Items
+                    break;
+            }
+            //Authenticated User Nav Items
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="ViewProfile">View Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="Edit" asp-controller="User" asp-action="Edit">Edit Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="logout" asp-controller="Login" asp-action="Logout">Logout</a>
+            </li>
+        }
 
-</ul>
+    </ul>

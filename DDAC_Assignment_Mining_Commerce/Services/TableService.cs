@@ -75,5 +75,62 @@ namespace DDAC_Assignment_Mining_Commerce.Services
 
             return subscriptions;
         }
+
+        public async Task<List<Subscription>> GetSubscriptionsByRK(string rowKey)
+        {
+            List<Subscription> subscriptions = new List<Subscription>();
+            TableQuery<Subscription> partitionScanQuery = new TableQuery<Subscription>().Where
+               (TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey));
+
+            TableContinuationToken token = null;
+            // Page through the results
+            do
+            {
+                TableQuerySegment<Subscription> segment = await getTable("subscriptions").ExecuteQuerySegmentedAsync(partitionScanQuery, token);
+                token = segment.ContinuationToken;
+                foreach (Subscription subscription in segment)
+                {
+                    subscriptions.Add(subscription);
+                }
+            }
+            while (token != null);
+
+            return subscriptions;
+        }
+
+        public async Task<List<Notification>> GetNotificationsByPK(string partitionKey)
+        {
+            List<Notification> notifications = new List<Notification>();
+            TableQuery<Notification> partitionScanQuery = new TableQuery<Notification>().Where
+               (TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+
+            TableContinuationToken token = null;
+            // Page through the results
+            do
+            {
+                TableQuerySegment<Notification> segment = await getTable("notifications").ExecuteQuerySegmentedAsync(partitionScanQuery, token);
+                token = segment.ContinuationToken;
+                foreach (Notification notification in segment)
+                {
+                    notifications.Add(notification);
+                }
+            }
+            while (token != null);
+
+            return notifications;
+        }
+
+        public async 
+        Task
+DeleteNotificationsByPK(string partitionKey)
+        {
+            List<Notification> notifications = await GetNotificationsByPK(partitionKey);
+            foreach(Notification notification in notifications)
+            {
+                notification.ETag = "*";
+                TableOperation tableOperation = TableOperation.Delete(notification);
+                _ = getTable("notifications").ExecuteAsync(tableOperation);
+            }
+        }
     }
 }

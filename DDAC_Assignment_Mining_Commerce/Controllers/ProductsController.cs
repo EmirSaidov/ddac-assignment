@@ -61,7 +61,6 @@ namespace MVCProductShop2011Lab4.Controllers
 
             var product = await _context.Product
                 .FirstOrDefaultAsync(m => m.ID == id);
-            _ = _busService.QueueNewProductNotification(product);
             if (product == null)
             {
                 return NotFound();
@@ -83,16 +82,14 @@ namespace MVCProductShop2011Lab4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile image, double productPrice, [Bind("productName, productPrice, productMass, productDescription")] ProductModel product)
         {
-            Debug.WriteLine(productPrice);
-            Debug.WriteLine(product.productPrice);
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
 
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                _ = _context.Add(product);
+                _ = await _context.SaveChangesAsync();
                 if (image != null) { product.UploadProfilePicture(image, _blobService); }
-                _busService.QueueNewProductNotification(product);
+                _ = _busService.QueueNewProductNotification(NotificationType.NewProduct, product, null, null);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -106,7 +103,7 @@ namespace MVCProductShop2011Lab4.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            ProductModel product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -121,6 +118,9 @@ namespace MVCProductShop2011Lab4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productMass, productDescription")] ProductModel product)
         {
+            ProductModel oldProduct = await _context.Product
+                .FirstOrDefaultAsync(m => m.ID == product.ID);
+            _context.Entry(oldProduct).State = EntityState.Detached;
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
 
             if (ModelState.IsValid)
@@ -133,6 +133,7 @@ namespace MVCProductShop2011Lab4.Controllers
                     {
                         product.UploadProfilePicture(image, _blobService);
                     }
+                    _ = _busService.QueueNewProductNotification(NotificationType.EditProductPrice, product, oldProduct.productPrice, product.productPrice);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -177,6 +178,7 @@ namespace MVCProductShop2011Lab4.Controllers
             _blobService.deleteFromProductContainer(product.getProductPicName());
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
+            _ = _busService.QueueNewProductNotification(NotificationType.RemoveProduct, product, null, null);
             return RedirectToAction(nameof(Index));
         }
 
