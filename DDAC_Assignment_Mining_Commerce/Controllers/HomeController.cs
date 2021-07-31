@@ -1,5 +1,6 @@
 ﻿using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,18 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly MiningCommerceContext _context;
+
+        public HomeController(MiningCommerceContext context, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View( await _context.Product.ToListAsync());
         }
 
         public IActionResult Privacy()

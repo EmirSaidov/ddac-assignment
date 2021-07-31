@@ -59,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.productDescription)
                 </td>
                 <td>
-                    <a asp-controller="DisplayProduct" asp-action="Add_to_cart" asp-route-id="@item.ID">Add to cart</a>
+                    <a  class="btn btn-primary" asp-controller="DisplayProduct" asp-action="AddToCart" asp-route-id="@item.ID">Add to cart</a>
                 </td>
             </tr>
         }

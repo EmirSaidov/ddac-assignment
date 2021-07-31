@@ -1,8 +1,65 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<DDAC_Assignment_Mining_Commerce.Models.ProductModel>
+
+
+@{
+    ViewData["Title"] = "Display";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Catalogue</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.imageUri)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productMass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productDescription)
+            </th>
+            <th>
+                <form method="POST">
+                    <input type="text" id="Name" placeholder="Enter a Name" name="Name" />
+                    <input asp-controller="Products" asp-action="Search" type="submit" placeholder="Search" />
+                </form>
+            </th>
+            <th>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div width="150" height="10">
+                        <img src="@Url.Content(item.imageUri)" width=150 />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productMass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productDescription)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

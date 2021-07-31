@@ -2,7 +2,7 @@
 
 namespace DDAC_Assignment_Mining_Commerce.Models
 {
-    public class CartModel
+    public class CosmosCartModel
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -10,6 +10,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public string PartitionKey { get; set; }
         public string BuyerID { get; set; }
         public string ProductID { get; set; }
+        public int ProductQuantity { get; set; }
         public bool IsRegistered { get; set; }
         public override string ToString()
         {

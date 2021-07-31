@@ -35,6 +35,7 @@ namespace MVCProductShop2011Lab4.Controllers
         {
             return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
         }
+
         //GET: SearchedProduct
         public async Task<IActionResult> Search(string Name)
         {
@@ -48,6 +49,8 @@ namespace MVCProductShop2011Lab4.Controllers
 
             }
         }
+
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
