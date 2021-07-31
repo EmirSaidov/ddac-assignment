@@ -76,7 +76,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                         HttpContext.Session.Set<UserModel>("AuthUser", isBuyer.user);
                         HttpContext.Session.Set<BuyerModel>("AuthRole", isBuyer);
                         HttpContext.Session.Set<UserType>("UserType", UserType.BUYER);
-                        List<Notification> notifications = await _tableService.GetNotificationsByPK(isBuyer.ID.ToString());
+                        IEnumerable<Notification> notifications = await _tableService.GetNotificationsByPK(isBuyer.ID.ToString());
                         HttpContext.Session.Set<IEnumerable<Notification>>("Notifications", notifications);
                     }
                     else if (isSeller != null)
