@@ -58,7 +58,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.SaveChangesAsync();
                     buyer.user.UploadProfilePicture(profile_picture,this._blob);
                     await buyer.user.setUserRole(_cosmosTable, UserType.BUYER);
-                    await this._analytics.pushAnalytics<RegisterAnalytic>(new RegisterAnalytic(buyer.user.ID,"B"));
+                    await this._analytics.logAnalytic<RegisterAnalytic>(new RegisterAnalytic(buyer.user.ID,"B"));
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
@@ -80,7 +80,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                     await this._context.SaveChangesAsync();
                     seller.user.UploadProfilePicture(profile_picture, this._blob);
                     await seller.user.setUserRole(_cosmosTable, UserType.SELLER);
-                    await this._analytics.pushAnalytics<RegisterAnalytic>(new RegisterAnalytic(seller.user.ID, "S"));
+                    await this._analytics.logAnalytic<RegisterAnalytic>(new RegisterAnalytic(seller.user.ID, "S"));
                     //Redirect to Login
                     return RedirectToAction(actionName: "Index", controllerName: "Login");
                 }
