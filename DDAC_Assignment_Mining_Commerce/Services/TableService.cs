@@ -120,9 +120,7 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return notifications;
         }
 
-        public async 
-        Task
-DeleteNotificationsByPK(string partitionKey)
+        public async Task DeleteNotificationsByPK(string partitionKey)
         {
             List<Notification> notifications = await GetNotificationsByPK(partitionKey);
             foreach(Notification notification in notifications)

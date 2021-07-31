@@ -610,3 +610,7 @@ C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mini
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Amqp.dll
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\System.Memory.Data.dll
 C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.ServiceBus.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.Azure.Services.AppAuthentication.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll
+C:\Users\joshu\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
