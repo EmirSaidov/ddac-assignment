@@ -32,7 +32,7 @@ namespace MVCSellerShop2011Lab4.Controllers
                 return NotFound();
             }
 
-            return View(seller);
+            return View("../Store/Details", seller);
         }
 
         // GET: Sellers/Edit/5
@@ -44,7 +44,7 @@ namespace MVCSellerShop2011Lab4.Controllers
             {
                 return NotFound();
             }
-            return View(seller);
+            return View("../Store/Edit", seller);
         }
 
         // POST: Sellers/Edit/5
