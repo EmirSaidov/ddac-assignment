@@ -16,6 +16,7 @@ using DDAC_Assignment_Mining_Commerce.Models;
 using Microsoft.EntityFrameworkCore;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Http;
+using DDAC_Assignment_Mining_Commerce.Worker;
 
 namespace DDAC_Assignment_Mining_Commerce
 {
@@ -52,6 +53,7 @@ namespace DDAC_Assignment_Mining_Commerce
             services.AddDbContext<MiningCommerceContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MiningCommerceContext")));
 
+            //Services
             services.AddScoped<AppSettingService>();
             services.AddScoped<StorageAccountService>();
             services.AddScoped<BlobService>();
@@ -60,9 +62,10 @@ namespace DDAC_Assignment_Mining_Commerce
             services.AddScoped<CosmosSQLService>();
             services.AddScoped<CosmosTableService>();
             services.AddScoped<QueueService>();
-            services.AddScoped<BusService>();
-            services.AddHostedService<WorkerService>();
 
+            //Worker
+            services.AddHostedService<AnalyticLoggingWorker>();
+            
             //Azure Services
             services.AddAzureClients(builder =>
             {
