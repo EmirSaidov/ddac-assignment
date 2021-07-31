@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using DDAC_Assignment_Mining_Commerce.Models.Analytics;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,18 @@ namespace DDAC_Assignment_Mining_Commerce.Worker
             return Task.CompletedTask;
         }
 
+        public TableOperation tableToModel(string table_name,ServiceBusReceivedMessage msg) {
+            switch (table_name)
+            {
+                case "Login":
+                    return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<LoginAnalytic>(msg.Body.ToString()));
+                case "Registration":
+                    return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<RegisterAnalytic>(msg.Body.ToString()));
+                default:
+                    throw (new Exception(message: "Table does not exists"));
+            }
+        }
+
         public async Task MessageHandler(ProcessMessageEventArgs arg)
         {
             var scope = this._services.CreateScope();
@@ -39,21 +52,21 @@ namespace DDAC_Assignment_Mining_Commerce.Worker
             try
             {
                 var msg = arg.Message;
-                //Console.WriteLine("Message Received");
-                TableEntity analyticObj = JsonConvert.DeserializeObject<TableEntity>(msg.Body.ToString());
-                //Console.WriteLine(msg.Body.ToString());
-                //Console.WriteLine("Table: ");
-                //Console.WriteLine(msg.ApplicationProperties["table"]);
+                Console.WriteLine("Message Received");
+                Console.WriteLine(msg.Body.ToString());
+                Console.WriteLine("Table: ");
+                Console.WriteLine(msg.ApplicationProperties["table"]);
                 AnalyticService _analytic = scope.ServiceProvider.GetRequiredService<AnalyticService>();
-                string tablename = msg.ApplicationProperties["table"].ToString();
-                if (tablename == null) {
+                string tableName = msg.ApplicationProperties["table"].ToString();
+                if (msg.ApplicationProperties["table"]== null)
+                {
                     throw new Exception(message: "Table name not found");
                 }
-                var table = _analytic.getTable(tablename);
-                TableOperation logOperation = TableOperation.InsertOrReplace(analyticObj);
+                TableOperation logOperation = tableToModel(tableName, msg);
+                var table = _analytic.getTable(tableName);
                 await table.ExecuteAsync(logOperation);
                 await arg.CompleteMessageAsync(arg.Message);
-                //Console.WriteLine("New Analytic data logged");
+                Console.WriteLine("New Analytic data logged");
             }
             catch (Exception ex)
             {
