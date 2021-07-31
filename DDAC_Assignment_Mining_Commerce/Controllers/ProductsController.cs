@@ -17,11 +17,13 @@ namespace MVCProductShop2011Lab4.Controllers
     {
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blobService;
+        private readonly BusService _busService;
 
-        public ProductsController(MiningCommerceContext context, BlobService blobService)
+        public ProductsController(MiningCommerceContext context, BlobService blobService, BusService busService)
         {
             _context = context;
             _blobService = blobService;
+            _busService = busService;
         }
 
         // GET: Products
@@ -83,15 +85,14 @@ namespace MVCProductShop2011Lab4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile image, double productPrice, [Bind("productName, productPrice, productMass, productDescription")] ProductModel product)
         {
-            Debug.WriteLine(productPrice);
-            Debug.WriteLine(product.productPrice);
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
-            if (image != null) product.imageUri = _blobService.uploadToProductContainer(image);
 
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                _ = _context.Add(product);
+                _ = await _context.SaveChangesAsync();
+                if (image != null) { product.UploadProfilePicture(image, _blobService); }
+                _ = _busService.QueueNewProductNotification(NotificationType.NewProduct, product, null, null);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -105,7 +106,7 @@ namespace MVCProductShop2011Lab4.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            ProductModel product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -120,12 +121,10 @@ namespace MVCProductShop2011Lab4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(IFormFile image, [Bind("ID, imageUri, productName, productPrice, productMass, productDescription")] ProductModel product)
         {
+            ProductModel oldProduct = await _context.Product
+                .FirstOrDefaultAsync(m => m.ID == product.ID);
+            _context.Entry(oldProduct).State = EntityState.Detached;
             product.sellerID = HttpContext.Session.Get<SellerModel>("AuthRole").ID;
-            if (image != null)
-            {
-                _blobService.deleteFromProductContainer(product.imageUri);
-                product.imageUri = _blobService.uploadToProductContainer(image);
-            }
 
             if (ModelState.IsValid)
             {
@@ -133,6 +132,11 @@ namespace MVCProductShop2011Lab4.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    if (image != null)
+                    {
+                        product.UploadProfilePicture(image, _blobService);
+                    }
+                    _ = _busService.QueueNewProductNotification(NotificationType.EditProductPrice, product, oldProduct.productPrice, product.productPrice);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -174,9 +178,10 @@ namespace MVCProductShop2011Lab4.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Product.FindAsync(id);
-            _blobService.deleteFromProductContainer(product.imageUri);
+            _blobService.deleteFromProductContainer(product.getProductPicName());
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
+            _ = _busService.QueueNewProductNotification(NotificationType.RemoveProduct, product, null, null);
             return RedirectToAction(nameof(Index));
         }
 

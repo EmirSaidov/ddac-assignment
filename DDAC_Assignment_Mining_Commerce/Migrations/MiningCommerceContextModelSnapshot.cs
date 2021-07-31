@@ -66,11 +66,7 @@ namespace DDAC_Assignment_Mining_Commerce.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("imageUri")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("productDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("productMass")

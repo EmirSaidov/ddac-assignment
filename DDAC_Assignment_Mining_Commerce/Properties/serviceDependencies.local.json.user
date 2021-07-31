@@ -7,6 +7,14 @@
     "storage2": {
       "restored": true,
       "restoreTime": "2021-07-27T15:56:40.2823815Z"
+    },
+    "cosmosdb2": {
+      "restored": true,
+      "restoreTime": "2021-07-28T20:02:07.5510651Z"
+    },
+    "cosmosdb1": {
+      "restored": true,
+      "restoreTime": "2021-07-28T19:06:25.3484734Z"
     }
   },
   "parameters": {
@@ -15,8 +23,28 @@
       "Type": "resourceGroup",
       "Value": "ddac_assignment"
     },
+    "cosmosdb2.resourceGroupName": {
+      "Name": "cosmosdb2.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "ddac_assignment"
+    },
+    "cosmosdb1.resourceGroupName": {
+      "Name": "cosmosdb1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "ddac_assignment"
+    },
     "storage1.subscriptionId": {
       "Name": "storage1.subscriptionId",
+      "Type": "subscription",
+      "Value": "1ace7919-bf69-4ddc-970d-bd13e2023b8b"
+    },
+    "cosmosdb2.subscriptionId": {
+      "Name": "cosmosdb2.subscriptionId",
+      "Type": "subscription",
+      "Value": "1ace7919-bf69-4ddc-970d-bd13e2023b8b"
+    },
+    "cosmosdb1.subscriptionId": {
+      "Name": "cosmosdb1.subscriptionId",
       "Type": "subscription",
       "Value": "1ace7919-bf69-4ddc-970d-bd13e2023b8b"
     },

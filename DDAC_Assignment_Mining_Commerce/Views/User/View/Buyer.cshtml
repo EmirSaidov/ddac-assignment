@@ -1,0 +1,41 @@
+﻿@model BuyerModel
+@{
+    ViewData["Title"] = "View Profile";
+    @using DDAC_Assignment_Mining_Commerce.Helper
+    @using Microsoft.AspNetCore.Http
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    var isCurrentUser = Model.user.ID == HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").ID;
+}
+@if (ViewData["ReturnURL"] != null)
+{
+    <a href="@ViewData["ReturnURL"]" class="btn btn-primary">Back</a>
+
+}
+
+@if (isCurrentUser)
+{
+    <h1>@ViewData["Title"]</h1>
+}
+
+@await Html.PartialAsync("View/User", Model.user)
+<div class="row">
+    <div class="col-md-4">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.address)</th>
+                <td>@Html.DisplayFor(model => model.address)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.shipping_address)</th>
+                <td>@Html.DisplayNameFor(model => model.shipping_address)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@if (isCurrentUser)
+{
+    <a href="./Edit" class="btn btn-primary">
+        Edit Profile
+    </a>
+}

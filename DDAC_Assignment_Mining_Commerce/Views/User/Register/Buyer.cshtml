@@ -37,7 +37,7 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <img src="~/assets/default_profile.jpg" class="img-responsive rounded-circle" id="previewImage" width="150" height="150"/>
+                <img src="~/assets/default_profile.jpg" class="img-responsive rounded-circle" id="previewImage" width="150" height="150" />
                 <input id="profile_picture" type="file" accept="image/png, image/jpg, image/jpeg" name="profile_picture" onchange="PreviewImage()" />
             </div>
             <div class="form-group">
@@ -54,6 +54,11 @@
                 <label asp-for="@Model.user.password"></label>
                 <input asp-for="@Model.user.password" class="form-control" />
                 <span asp-validation-for="@Model.user.password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.user.DOB"></label>
+                <input asp-for="@Model.user.DOB" class="form-control" />
+                <span asp-validation-for="@Model.user.DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.user.phone"></label>

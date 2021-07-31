@@ -1,13 +1,39 @@
 ﻿@model SellerModel
 @{
     ViewData["Title"] = "Edit Profile";
-}
 
+    @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob;
+}
+<script type="text/javascript">
+    function PreviewImage() {
+        // Where you will display your image
+        //var preview = document.querySelector('img');
+        var preview = document.getElementById("previewImage");
+        // The button where the user chooses the local image to display
+        //var file = document.querySelector('input[type=file]').files[0];
+        var file = document.getElementById("profile_picture").files[0];
+        // FileReader instance
+        var reader = new FileReader();
+
+        // When the image is loaded we will set it as source of
+        // our img tag
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+        if (file) {
+            // Load image as a base64 encoded URI
+            reader.readAsDataURL(file);
+        }
+        else {
+            preview.src = "";
+        }
+    }
+</script>
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditSeller" method="post">
+        <form asp-action="EditSeller" method="post" enctype="multipart/form-data">
             <hr />
             <input type="hidden" asp-for="@Model.ID" />
             <input type="hidden" asp-for="@Model.user.ID" />
@@ -15,6 +41,10 @@
             <input type="hidden" asp-for="@Model.storeName" />
             <input type="hidden" asp-for="@Model.store_address" />
             <input type="hidden" asp-for="@Model.store_contact" />
+            <div class="form-group">
+                <img src="@Url.Content(Model.user.getProfilePicture(_blob))" id="previewImage" height="150" width="150" class="rounded-circle" />
+                <input id="profile_picture" type="file" accept="image/png, image/jpg, image/jpeg" name="profile_picture" onchange="PreviewImage()" />
+            </div>
             <div class="form-group">
                 <label asp-for="@Model.user.fullname"></label>
                 <input asp-for="@Model.user.fullname" class="form-control" />
@@ -24,6 +54,11 @@
                 <label asp-for="@Model.user.email"></label>
                 <input asp-for="@Model.user.email" class="form-control" />
                 <span asp-validation-for="@Model.user.email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.user.DOB"></label>
+                <input asp-for="@Model.user.DOB" class="form-control" />
+                <span asp-validation-for="@Model.user.DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.user.phone"></label>
@@ -50,3 +85,4 @@
             <button asp-action="Password" class="btn btn-secondary">Change Password</button>
         </form>
     </div>
+</div>

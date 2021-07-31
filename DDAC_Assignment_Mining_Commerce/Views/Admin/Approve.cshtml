@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<SellerModel>
 @{
     ViewData["Title"] = "Approve Sellers";
+    @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -8,6 +9,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                Profile
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.user.fullname)
             </th>
@@ -36,7 +40,12 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => seller.user.fullname)
+                <img src="@Url.Content(seller.user.getProfilePicture(_blob))" height="150" width="150" class="rounded-circle" />
+            </td>
+            <td>
+                <a asp-action="ViewUser" asp-controller="User" asp-route-id="@seller.user.ID">
+                    @Html.DisplayFor(modelItem => seller.user.fullname)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => seller.user.email)

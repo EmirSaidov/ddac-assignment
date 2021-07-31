@@ -1,5 +1,5 @@
 ﻿@model DDAC_Assignment_Mining_Commerce.Models.ProductModel
-
+@inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob 
     <script type="text/javascript">
         function PreviewImage() {
             // Where you will display your image
@@ -41,10 +41,9 @@
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <input type="hidden" asp-for="@Model.imageUri" />
+            <input type="hidden" asp-for="@Model.ID" />
             <div class="form-group">
-                <img src="@Model.imageUri" class="img-responsive" id="previewImage" width="150" />
+                <img src="@Url.Content(Model.getProductPicture(_blob))" class="img-responsive" id="previewImage" width="150" />
             </div>
             <div class="form-group">
                 <input id="uploadImage" type="file" accept="image/png, image/jpg, image/jpeg" name="image" onchange="PreviewImage()" />
@@ -77,5 +76,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

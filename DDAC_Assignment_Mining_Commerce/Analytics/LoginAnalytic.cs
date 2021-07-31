@@ -29,7 +29,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models.Analytics
 
         public TableBatchOperation operations()
         {
-            batch.InsertOrReplace(new LoginAnalytic(this.user_id));
+            batch.InsertOrReplace(this);
             return batch;
         }
     }

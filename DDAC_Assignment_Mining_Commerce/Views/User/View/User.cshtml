@@ -1,0 +1,44 @@
+﻿@model UserModel
+@{
+    @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob;
+}
+
+<h2>@Model.fullname</h2>
+
+<img src="@Url.Content(Model.getProfilePicture(_blob))" id="previewImage" height="150" width="150" class="rounded-circle" />
+
+<div class="row">
+    <div class="col-md-4">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.email)</th>
+                <td>@Model.email</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DOB)</th>
+                <td>@Model.DOB</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.gender)</th>
+                @switch (Model.gender) {
+                    case "M":
+                        <td>Male</td>
+                        break;
+                    case "F":
+                        <td>Female</td>
+                        break;
+                    case "U":
+                        <td>Unidentified</td>
+                        break;
+                    default:
+                        <td>Unidentified</td>
+                        break;
+                }
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.phone)</th>
+                <td>@Model.phone</td>
+            </tr>
+        </table>
+     </div>
+</div>
