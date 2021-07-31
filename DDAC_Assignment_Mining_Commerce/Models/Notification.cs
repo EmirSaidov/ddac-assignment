@@ -17,11 +17,11 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         public void AssignRowKey()
         {
-            this.RowKey = Guid.NewGuid().ToString();
+            this.RowKey = BuyerID.ToString();
         }
         public void AssignPartitionKey()
         {
-            this.PartitionKey = BuyerID.ToString();
+            this.PartitionKey = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
         }
 
         public void GenerateMessage(string storeName, string productName, double? productOldPrice, double? productNewPrice)

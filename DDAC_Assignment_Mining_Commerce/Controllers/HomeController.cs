@@ -35,9 +35,19 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         public async Task ClearNotificationsAsync()
         {
             string buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID.ToString();
-            await _tableService.DeleteNotificationsByPK(buyerID);
-            List<Notification> notifications = await _tableService.GetNotificationsByPK(buyerID);
+            await _tableService.DeleteNotificationsByRK(buyerID);
+            List<Notification> notifications = await _tableService.GetNotificationsByRK(buyerID);
             HttpContext.Session.Set<IEnumerable<Notification>>("Notifications", notifications);
+        }
+
+        public async Task UpdateNotificationsAsync()
+        {
+            BuyerModel buyer = HttpContext.Session.Get<BuyerModel>("AuthRole");
+            if (buyer != null)
+            {
+                IEnumerable<Notification> notifications = await _tableService.GetNotificationsByRK(buyer.ID.ToString());
+                HttpContext.Session.Set("Notifications", notifications);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

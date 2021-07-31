@@ -98,11 +98,11 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return subscriptions;
         }
 
-        public async Task<List<Notification>> GetNotificationsByPK(string partitionKey)
+        public async Task<List<Notification>> GetNotificationsByRK(string rowKey)
         {
             List<Notification> notifications = new List<Notification>();
             TableQuery<Notification> partitionScanQuery = new TableQuery<Notification>().Where
-               (TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+               (TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowKey));
 
             TableContinuationToken token = null;
             // Page through the results
@@ -120,9 +120,9 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return notifications;
         }
 
-        public async Task DeleteNotificationsByPK(string partitionKey)
+        public async Task DeleteNotificationsByRK(string rowKey)
         {
-            List<Notification> notifications = await GetNotificationsByPK(partitionKey);
+            List<Notification> notifications = await GetNotificationsByRK(rowKey);
             foreach(Notification notification in notifications)
             {
                 notification.ETag = "*";
