@@ -16,7 +16,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly TableService _tableService;
-
+        private readonly MiningCommerceContext _context;
         public HomeController(ILogger<HomeController> logger, TableService tableService, MiningCommerceContext context)
         {
             _logger = logger;
