@@ -1,8 +1,11 @@
 ﻿using DDAC_Assignment_Mining_Commerce.Models;
+using DDAC_Assignment_Mining_Commerce.Models.Analytics;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.Edm;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +18,16 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blob;
         private readonly CosmosTableService _cosmosTable;
-        public AdminController(MiningCommerceContext _context, BlobService _blob, CosmosTableService _cosmosTable) {
+        private readonly AnalyticService _analytic;
+        public AdminController(MiningCommerceContext _context, BlobService _blob, CosmosTableService _cosmosTable, AnalyticService _analytic) {
             this._context = _context;
             this._blob = _blob;
             this._cosmosTable = _cosmosTable;
+            this._analytic = _analytic;
         }
         public async Task<IActionResult> Approve()
         {
-            return View(await _context.Seller.Include(seller => seller.user).Where(seller=>!seller.is_approved).ToListAsync());
+            return View(await _context.Seller.Include(seller => seller.user).Where(seller => !seller.is_approved).ToListAsync());
         }
 
         public async Task<IActionResult> ApproveSeller(int id) {
@@ -30,11 +35,6 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             seller_entity.is_approved = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(actionName: "Approve");
-        }
-
-        public IActionResult Report(){
-
-            return View("../Admin/Report");
         }
 
         public IActionResult Register() {
@@ -61,5 +61,8 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             }
             return View("../Admin/Register", admin);
         }
+
+        //Report Stuff
     }
+
 }
