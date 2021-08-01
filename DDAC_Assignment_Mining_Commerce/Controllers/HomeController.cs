@@ -30,7 +30,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
