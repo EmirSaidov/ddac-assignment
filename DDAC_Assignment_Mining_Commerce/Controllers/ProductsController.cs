@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using DDAC_Assignment_Mining_Commerce.Analytics;
 using DDAC_Assignment_Mining_Commerce.Helper;
 using DDAC_Assignment_Mining_Commerce.Models;
 using DDAC_Assignment_Mining_Commerce.Services;
@@ -18,12 +19,14 @@ namespace MVCProductShop2011Lab4.Controllers
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blobService;
         private readonly BusService _busService;
+        private readonly AnalyticService _analytics;
 
-        public ProductsController(MiningCommerceContext context, BlobService blobService, BusService busService)
+        public ProductsController(MiningCommerceContext context, BlobService blobService, BusService busService, AnalyticService _analytics)
         {
             _context = context;
             _blobService = blobService;
             _busService = busService;
+            this._analytics = _analytics;
         }
 
         // GET: Products
@@ -89,10 +92,13 @@ namespace MVCProductShop2011Lab4.Controllers
 
             if (ModelState.IsValid)
             {
+                SellerModel seller = _context.Seller.FirstOrDefault<SellerModel>(s=> s.ID == product.sellerID);
+                product.seller = seller;
                 _ = _context.Add(product);
                 _ = await _context.SaveChangesAsync();
                 if (image != null) { product.UploadProfilePicture(image, _blobService); }
                 _ = _busService.QueueNewProductNotification(NotificationType.NewProduct, product, null, null);
+                _ = _analytics.logAnalytic<ProductAnalytic>(new ProductAnalytic(product.ID,product.seller.ID));
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
