@@ -48,14 +48,14 @@ namespace DDAC_Assignment_Mining_Commerce.Worker
         public async Task MessageHandler(ProcessMessageEventArgs arg)
         {
             var scope = this._services.CreateScope();
-            Console.WriteLine("Message Handler working");
+            //Console.WriteLine("Message Handler working");
             try
             {
                 var msg = arg.Message;
-                Console.WriteLine("Message Received");
-                Console.WriteLine(msg.Body.ToString());
-                Console.WriteLine("Table: ");
-                Console.WriteLine(msg.ApplicationProperties["table"]);
+                //Console.WriteLine("Message Received");
+                //Console.WriteLine(msg.Body.ToString());
+                //Console.WriteLine("Table: ");
+                //Console.WriteLine(msg.ApplicationProperties["table"]);
                 AnalyticService _analytic = scope.ServiceProvider.GetRequiredService<AnalyticService>();
                 string tableName = msg.ApplicationProperties["table"].ToString();
                 if (msg.ApplicationProperties["table"]== null)
@@ -66,7 +66,7 @@ namespace DDAC_Assignment_Mining_Commerce.Worker
                 var table = _analytic.getTable(tableName);
                 await table.ExecuteAsync(logOperation);
                 await arg.CompleteMessageAsync(arg.Message);
-                Console.WriteLine("New Analytic data logged");
+                //Console.WriteLine("New Analytic data logged");
             }
             catch (Exception ex)
             {

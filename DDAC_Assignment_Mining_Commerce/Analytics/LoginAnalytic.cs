@@ -21,6 +21,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models.Analytics
         public int user_id { get; set; }
         public string month;
         public string year;
+        public DateTime created_at { get; set; } = DateTime.Now;
         TableBatchOperation batch = new TableBatchOperation();
         public string tableName()
         {
@@ -31,6 +32,10 @@ namespace DDAC_Assignment_Mining_Commerce.Models.Analytics
         {
             batch.InsertOrReplace(this);
             return batch;
+        }
+
+        public string getLoginDate() {
+            return this.created_at.ToString("dd/MM/yyyy");
         }
     }
 }

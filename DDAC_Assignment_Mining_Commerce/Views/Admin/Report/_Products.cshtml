@@ -1,0 +1,89 @@
+﻿@model List<ProductModel>
+
+@{
+    @using Newtonsoft.Json;
+    Dictionary<string, int> groupBySeller = new Dictionary<string, int>();
+    Model.ForEach(product =>
+    {
+        if (groupBySeller.ContainsKey(product.seller.storeName))
+        {
+            groupBySeller[product.seller.storeName]++;
+        }
+        else
+        {
+            groupBySeller.Add(product.seller.storeName, 1);
+
+        }
+    });
+}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var sellerProduct = new google.visualization.DataTable();
+        sellerProduct.addColumn('string', 'Store');
+        sellerProduct.addColumn('number', 'Products');
+        var groupBySeller = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(groupBySeller))');
+        var keys = Object.keys(groupBySeller).forEach(key => {
+            sellerProduct.addRow([key, groupBySeller[key]]);
+        });
+
+        // Set chart options
+        var options = {
+            'title': 'Product Number By Seller',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('groupBySeller'));
+        chart.draw(sellerProduct, options);
+    }
+
+</script>
+<style>
+    .scrollable {
+        max-height:40vh;
+        overflow-y:scroll;
+    }
+    table {
+        width:100%;
+    }
+</style>
+<div>
+    <div> <b>Total Product: </b> @Model.Count</div>
+    <div class="d-flex justify-content-between">
+        <div class="scrollable">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Store Name</th>
+                        <th>Seller Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ProductModel p in Model) { 
+                        <tr>
+                            <td>@p.productName</td>
+                            <td>@p.seller.storeName</td>
+                            <td>@p.seller.user.fullname</td>
+                            <td>@p.productPrice</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="groupBySeller"></div>
+    </div>
+</div>

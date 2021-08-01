@@ -27,7 +27,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View( await _context.Product.ToListAsync());
+            return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
         }
 
         public IActionResult Privacy()

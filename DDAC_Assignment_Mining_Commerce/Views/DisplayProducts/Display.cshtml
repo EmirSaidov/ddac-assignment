@@ -3,7 +3,10 @@
 
 @{
     ViewData["Title"] = "Display";
+    @using DDAC_Assignment_Mining_Commerce.Helper
+    @using Microsoft.AspNetCore.Http
     @inject DDAC_Assignment_Mining_Commerce.Services.BlobService _blob;
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 }
 
 <h1>Catalogue</h1>
@@ -29,12 +32,12 @@
             </th>
             <th>
                 <form method="POST">
-                    <input type="text" id="Name" placeholder="Enter a Name" name="Name"/>
-                    <input asp-controller="Products" asp-action="Search"  type="submit" placeholder="Search" />
+                    <input type="text" id="Name" placeholder="Enter a Name" name="Name" />
+                    <input asp-controller="Products" asp-action="Search" type="submit" placeholder="Search" />
                 </form>
             </th>
             <th>
-                </th>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,7 +47,7 @@
             <tr>
                 <td>
                     <div width="150" height="10">
-                        <img src="@Url.Content(item.getProductPicture(_blob))" width=150 />
+                        <img src="@Url.Content(item.getProductPicture(_blob))" height="150" width="150" />
                     </div>
                 </td>
                 <td>
@@ -59,9 +62,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.productDescription)
                 </td>
-                <td>
-                    <a  class="btn btn-primary" asp-controller="DisplayProduct" asp-action="AddToCart" asp-route-id="@item.ID">Add to cart</a>
-                </td>
+                @if (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType")== UserType.BUYER)
+                {
+                    <td>
+                        <a class="btn btn-primary" asp-controller="DisplayProduct" asp-action="AddToCart" asp-route-id="@item.ID">Add to cart</a>
+                    </td>
+                }
+
             </tr>
         }
     </tbody>
