@@ -66,7 +66,7 @@ namespace DDAC_Assignment_Mining_Commerce
 
             //Worker
             services.AddHostedService<AnalyticLoggingWorker>();
-            services.AddHostedService<WorkerService>();
+            services.AddHostedService<NotificationWorker>();
             
             //Azure Services
             services.AddAzureClients(builder =>

@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace DDAC_Assignment_Mining_Commerce.Services
 {
-    public class WorkerService : BackgroundService
+    public class NotificationWorker : BackgroundService
     {
-        private readonly ILogger<WorkerService> _logger;
+        private readonly ILogger<NotificationWorker> _logger;
         private readonly IServiceProvider _services;
 
-        public WorkerService(ILogger<WorkerService> logger, IServiceProvider services)
+        public NotificationWorker(ILogger<NotificationWorker> logger, IServiceProvider services)
         {
             _logger = logger;
             _services = services;
@@ -57,8 +57,16 @@ namespace DDAC_Assignment_Mining_Commerce.Services
         {
             string body = args.Message.Body.ToString();
             Notification notification = JsonSerializer.Deserialize<Notification>(body);
-            double? oldPrice = (double?)args.Message.ApplicationProperties["productOldPrice"];
-            double? newPrice = (double?)args.Message.ApplicationProperties["productNewPrice"];
+            double? oldPrice = null;
+            double? newPrice = null;
+            if (args.Message.ApplicationProperties.ContainsKey("productOldPrice"))
+            {
+                oldPrice = (double?)args.Message.ApplicationProperties["productOldPrice"];
+            }
+            if (args.Message.ApplicationProperties.ContainsKey("productNewPrice"))
+            {
+                newPrice = (double?)args.Message.ApplicationProperties["productNewPrice"];
+            }
 
             IServiceScope scope = _services.CreateScope();
             MiningCommerceContext context = scope.ServiceProvider.GetRequiredService<MiningCommerceContext>();

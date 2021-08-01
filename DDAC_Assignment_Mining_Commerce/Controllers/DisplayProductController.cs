@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
 using System.Net;
 using System.Configuration;
+using DDAC_Assignment_Mining_Commerce.Analytics;
+using Newtonsoft.Json;
 
 namespace DDAC_Assignment_Mining_Commerce.Controllers
 {
@@ -20,10 +22,12 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
     {
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blobService;
-        public DisplayProductController(MiningCommerceContext context, BlobService blobService)
+        private readonly AnalyticService _analytics;
+        public DisplayProductController(MiningCommerceContext context, BlobService blobService,AnalyticService _analytics)
         {
             _context = context;
             _blobService = blobService;
+            this._analytics = _analytics;
 
         }
         // The Azure Cosmos DB endpoint for running this sample.
@@ -92,7 +96,6 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             }
 
             return View("../DisplayProducts/Display", await _context.Product.ToListAsync());
-            // Create a family object for the Wakefield family
 
         }
 
@@ -137,7 +140,7 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
             this.container = await this.database.CreateContainerIfNotExistsAsync(containerId, "/partitionKey");
             var product = await _context.Product.FindAsync(id);
-
+            
             var partitionKeyValue = HttpContext.Session.Get<BuyerModel>("AuthRole").user.fullname.ToString();
             var cartId = product.ID.ToString() + HttpContext.Session.Get<BuyerModel>("AuthRole").ID.ToString();
 
@@ -147,28 +150,32 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         }
 
 
-
-
-
-
-
-
-        public async Task<IActionResult> Checkout()
+        public async Task<IActionResult> Checkout(PayModel payment = null)
         {
+            ViewBag.payment = payment == null ? new PayModel() : payment;
             return View("../DisplayProducts/Pay", await _context.Product.Where(product => RetreiveCart().Result.Contains(product.ID.ToString())).ToListAsync());
         }
-        public async Task<IActionResult> Receipt()
+        public async Task<IActionResult> Receipt(PayModel payment)
         {
-            List<string> receipt = RetreiveCart().Result;
+            if (TryValidateModel(payment))
+            {
+                List<string> receipt = RetreiveCart().Result;
+                int buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID;
+                string containerId = HttpContext.Session.Get<BuyerModel>("AuthRole").user.email.ToString();
+                this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey, new CosmosClientOptions() { ApplicationName = "CosmosDBDotnetQuickstart" });
+                this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
+                this.container = await this.database.CreateContainerIfNotExistsAsync(containerId, "/partitionKey");
+                List<ProductModel> products = await _context.Product.Where(p => receipt.Contains(p.ID.ToString())).ToListAsync();
+                double receiptTotal = 0;
+                products.ForEach(p => receiptTotal += p.productPrice);
+                ContainerResponse containerResponse = await this.container.DeleteContainerAsync();
+                await _analytics.logAnalytic<OrderAnalytic>(new OrderAnalytic(buyerID, receipt.Count, receiptTotal));
+                return View("../DisplayProducts/Receipt", await _context.Product.Where(product => receipt.Contains(product.ID.ToString())).ToListAsync());
 
-            string containerId = HttpContext.Session.Get<BuyerModel>("AuthRole").user.email.ToString();
-            this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey, new CosmosClientOptions() { ApplicationName = "CosmosDBDotnetQuickstart" });
-            this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
-            this.container = await this.database.CreateContainerIfNotExistsAsync(containerId, "/partitionKey");
-
-            ContainerResponse containerResponse = await this.container.DeleteContainerAsync();
-
-            return View("../DisplayProducts/Receipt", await _context.Product.Where(product => receipt.Contains(product.ID.ToString())).ToListAsync());
+            }
+            else {
+                return await Checkout(payment);
+            }
         }
        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

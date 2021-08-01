@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using DDAC_Assignment_Mining_Commerce.Analytics;
 using DDAC_Assignment_Mining_Commerce.Models.Analytics;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.Azure.ServiceBus;
@@ -40,6 +41,10 @@ namespace DDAC_Assignment_Mining_Commerce.Worker
                     return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<LoginAnalytic>(msg.Body.ToString()));
                 case "Registration":
                     return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<RegisterAnalytic>(msg.Body.ToString()));
+                case "NewProduct":
+                    return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<ProductAnalytic>(msg.Body.ToString()));
+                case "Order":
+                    return TableOperation.InsertOrReplace(JsonConvert.DeserializeObject<OrderAnalytic>(msg.Body.ToString()));
                 default:
                     throw (new Exception(message: "Table does not exists"));
             }

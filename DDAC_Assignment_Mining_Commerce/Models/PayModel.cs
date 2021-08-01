@@ -27,7 +27,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
         [Display(Name = "CVC Number")]
         [Required(ErrorMessage = "CVC Number is Required")]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "The {0} must be between {2}-{1} chars")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The {0} must be 3 numbers")]
         public string cvc { get; set; }
 
         [Display(Name = "Expiration Date")]
