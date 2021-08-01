@@ -4,8 +4,8 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 
-
-<ul class="navbar-nav">
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+<ul class="navbar-nav ">
     @if (HttpContextAccessor.HttpContext.Session.Get("AuthUser") == null)
     {
         <li class="nav-item">
@@ -21,7 +21,7 @@
     else
     {
         var username = HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").fullname;
-        <li>Welcome @username</li>
+        <span class="navbar-text">Welcome @username</span>
         switch (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType"))
         {
             case UserType.BUYER:
@@ -68,3 +68,4 @@
     }
 
 </ul>
+</div>

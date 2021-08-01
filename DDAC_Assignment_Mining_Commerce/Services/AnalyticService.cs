@@ -76,6 +76,24 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             await this.SBsender.SendMessageAsync(ErrorMsg);
             
         }
+
+        public async Task<List<T>> getAnalytics<T>(T analytics) where T : TableEntity, AnalyticModel, new() {
+                List<T> res = new List<T>();
+                TableQuery<T> query = new TableQuery<T>();
+                TableContinuationToken token = null;
+                // Page through the results
+                do
+                {
+                    TableQuerySegment<T> segment = await getTable(analytics.tableName()).ExecuteQuerySegmentedAsync(query, token);
+                    token = segment.ContinuationToken;
+                    foreach (T analyticItem in segment)
+                    {
+                        res.Add(analyticItem);
+                    }
+                }
+                while (token != null);
+                return res;
+        }
     }
 
    

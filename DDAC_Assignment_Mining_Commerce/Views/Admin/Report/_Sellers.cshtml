@@ -1,0 +1,84 @@
+﻿@model List<SellerModel>
+
+@{
+    @using Newtonsoft.Json;
+    Dictionary<string, int> groupByApproved = new Dictionary<string, int>();
+    groupByApproved.Add("Approved", 0);
+    groupByApproved.Add("Unapproved", 0);
+    Model.ForEach(seller =>
+    {
+        if (seller.is_approved) groupByApproved["Approved"]++;
+        else groupByApproved["Unapproved"]++;
+    });
+}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var approvedSeller = new google.visualization.DataTable();
+        approvedSeller.addColumn('string', 'Approved/Unappoved');
+        approvedSeller.addColumn('number', 'Count');
+        var groupByApproved = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(groupByApproved))');
+        approvedSeller.addRow(["Approved", groupByApproved["Approved"]]);
+        approvedSeller.addRow(["Unapproved", groupByApproved["Unapproved"]])
+
+        // Set chart options
+        var options = {
+            'title': 'Approved / Unapproved Seller',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('groupByApproved'));
+        chart.draw(approvedSeller, options);
+    }
+
+</script>
+<style>
+    .scrollable {
+        max-height: 40vh;
+        overflow-y: scroll;
+        overflow-x:hidden;
+    }
+</style>
+<div>
+    <div> <b>Total Seller: </b> @Model.Count</div>
+    <div class="d-flex justify-content-between">
+        <div class="scrollable">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Seller Name</th>
+                        <th>Seller Email</th>
+                        <th>Seller Contact</th>
+                        <th>Seller Store </th>
+                        <th>Seller Store Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SellerModel s in Model)
+                    {
+                        <tr>
+                            <td>@s.user.fullname</td>
+                            <td>@s.user.email</td>
+                            <td>@s.user.phone</td>
+                            <td>@s.storeName</td>
+                            <td>@s.store_contact</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="groupByApproved"></div>
+    </div>
+</div>
