@@ -1,4 +1,6 @@
-﻿@model SellerModel
+﻿@using Newtonsoft.Json;
+
+@model SellerModel
 @{
     ViewData["Title"] = "View Profile";
     @using DDAC_Assignment_Mining_Commerce.Helper
@@ -6,12 +8,81 @@
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     var isCurrentUser = Model.user.ID == HttpContextAccessor.HttpContext.Session.Get<UserModel>("AuthUser").ID;
 }
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/json2/0.1/json2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var subscribeButton = document.getElementById("subscribe");
+        var unsubscribeButton = document.getElementById("unsubscribe");
+
+        var sellerID = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.ID))');
+
+        $.ajax({
+            url: '../../User/GetSubscriptionStatus',
+            type: 'GET',
+            data: {
+                sellerID: sellerID
+            },
+            success: function (data) {
+                if (!data) {
+                    subscribeButton.style.display = '';
+                    unsubscribeButton.style.display = 'none';
+                } else {
+                    subscribeButton.style.display = 'none';
+                    unsubscribeButton.style.display = '';
+                }
+            },
+            error: function () {
+                alert("Error reading the subscription status");
+            }
+        });
+
+        $('[id*=subscribe]').click(function () {
+            $.ajax({
+                url: '../../User/Subscribe',
+                type: 'POST',
+                data: {
+                    sellerID: sellerID
+                },
+                success: function (data) {
+                    subscribeButton.style.display = 'none';
+                    unsubscribeButton.style.display = '';
+                },
+                error: function () {
+                    alert("Error subscribing to the store");
+                }
+            });
+
+        });
+
+        $('[id*=unsubscribe]').click(function () {
+            $.ajax({
+                url: '../../User/Unsubscribe',
+                type: 'POST',
+                data: {
+                    sellerID: sellerID
+                },
+                success: function (data) {
+                    subscribeButton.style.display = '';
+                    unsubscribeButton.style.display = 'none';
+                },
+                error: function () {
+                    alert("Error unsubscribing from the store");
+                }
+            });
+
+        });
+    });
+</script>
+
 @if (ViewData["ReturnURL"] != null)
 {
-<a href="@ViewData["ReturnURL"]" class="btn btn-primary">Back</a>
-
+    <a href="@ViewData["ReturnURL"]" class="btn btn-primary">Back</a>
 }
 
+<button class="btn btn-primary" id="subscribe">Subscribe</button>
+<button class="btn btn-danger" id="unsubscribe">Unsubscribe</button>
 
 @if (isCurrentUser)
 {

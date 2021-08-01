@@ -17,10 +17,12 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
         private readonly MiningCommerceContext _context;
         private readonly BlobService _blob;
         private readonly CosmosTableService _cosmosTable;
-        public UserController(MiningCommerceContext _context,BlobService _blob, CosmosTableService _cosmosTable) {
+        private readonly TableService _tableService;
+        public UserController(MiningCommerceContext _context,BlobService _blob, CosmosTableService _cosmosTable, TableService _tableService) {
             this._context = _context;
             this._blob = _blob;
             this._cosmosTable = _cosmosTable;
+            this._tableService = _tableService;
         }
 
         public IActionResult Edit()
@@ -234,6 +236,47 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
                 else { ModelState.AddModelError(string.Empty, "Account with Email Already Exists"); }
             }
             return View("../User/Edit/Admin", admin);
+        }
+
+        public async Task<bool> GetSubscriptionStatusAsync(string? sellerID)
+        {
+            if (sellerID != null)
+            {
+                string buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID.ToString();
+                Subscription subscription = await _tableService.GetSubscription(sellerID, buyerID);
+                if (subscription != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task Subscribe(string? sellerID)
+        {
+            if (sellerID != null)
+            {
+                int buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID;
+                Subscription subscription = new Subscription();
+                subscription.sellerID = int.Parse(sellerID);
+                subscription.buyerID = buyerID;
+                subscription.AssignPartitionKey();
+                subscription.AssignRowKey();
+                _tableService.Subscribe(subscription);
+            }
+        }
+
+        public async Task Unsubscribe(string? sellerID)
+        {
+            if (sellerID != null)
+            {
+                string buyerID = HttpContext.Session.Get<BuyerModel>("AuthRole").ID.ToString();
+                Subscription subscription = await _tableService.GetSubscription(sellerID, buyerID);
+                if (subscription != null)
+                {
+                    _tableService.Unsubscribe(subscription);
+                }
+            }
         }
     }
 

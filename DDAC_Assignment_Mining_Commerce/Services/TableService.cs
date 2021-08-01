@@ -32,25 +32,17 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             return table.CreateIfNotExistsAsync().Result ? getTable(table_name) : table;
         }
 
-        public async void Subscribe(Subscription subscription)
+        public void Subscribe(Subscription subscription)
         {
-            Subscription exist = await GetSubscription(subscription.RowKey, subscription.PartitionKey);
-            if (exist == null)
-            {
-                TableOperation tableOperation = TableOperation.Insert(subscription);
-                _ = getTable("subscriptions").ExecuteAsync(tableOperation);
-            }
+            TableOperation tableOperation = TableOperation.Insert(subscription);
+            _ = getTable("subscriptions").ExecuteAsync(tableOperation);
         }
 
-        public async void Unsubscribe(Subscription subscription)
+        public void Unsubscribe(Subscription subscription)
         {
-            Subscription exist = await GetSubscription(subscription.RowKey, subscription.PartitionKey);
-            if (exist != null)
-            {
-                subscription.ETag = "*";
-                TableOperation tableOperation = TableOperation.Delete(subscription);
-                _ = getTable("subscriptions").ExecuteAsync(tableOperation);
-            }
+            subscription.ETag = "*";
+            TableOperation tableOperation = TableOperation.Delete(subscription);
+            _ = getTable("subscriptions").ExecuteAsync(tableOperation);
         }
 
         public async Task<Subscription> GetSubscription(string rowKey, string partitionKey)
