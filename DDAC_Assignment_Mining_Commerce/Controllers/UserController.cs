@@ -45,6 +45,12 @@ namespace DDAC_Assignment_Mining_Commerce.Controllers
             return View("../User/Edit/Password",AuthUser);
         }
 
+        public IActionResult ViewSeller(int id)
+        {
+            SellerModel seller = _context.Seller.Include(s => s.user).First(s => s.ID == id);
+            return RedirectToAction(actionName:"ViewUser",new { id = seller.user.ID });
+        }
+
         public async Task<IActionResult> ViewUser(int id, string returnURL = null) {
             UserModel user = this._context.User.FirstOrDefault<UserModel>(user => user.ID == id);
             ViewData["returnURL"] = Request.Headers["Referer"].ToString();
