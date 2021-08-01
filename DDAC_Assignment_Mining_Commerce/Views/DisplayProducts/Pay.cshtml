@@ -67,7 +67,6 @@
                 <input asp-for="@payment.ex_date" class="form-control" />
                 <span asp-validation-for="@payment.ex_date" class="text-danger"></span>
             </div>
-            <div asp-validation-summary="All" class="text-danger"></div>
             <button type="submit" class="btn btn-primary" asp-area="" asp-controller="DisplayProduct" asp-action="Receipt">Pay</button>
         </form>
     </div>
