@@ -140,7 +140,7 @@ namespace MVCProductShop2011Lab4.Controllers
                     await _context.SaveChangesAsync();
                     if (image != null)
                     {
-                        product.UploadProfilePicture(image, _blobService);
+                        await Task.Run(() => product.UploadProfilePicture(image, _blobService));
                     }
                     _ = _busService.QueueNewProductNotification(NotificationType.EditProductPrice, product, oldProduct.productPrice, product.productPrice);
                 }

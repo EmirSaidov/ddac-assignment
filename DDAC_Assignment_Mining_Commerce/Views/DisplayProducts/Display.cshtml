@@ -44,32 +44,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                <div width="150" height="10">
+                    <img src="@Url.Content(item.getProductPicture(_blob))" height="150" width="150" />
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productMass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productDescription)
+            </td>
+            @if (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType") == UserType.BUYER)
+            {
                 <td>
-                    <div width="150" height="10">
-                        <img src="@Url.Content(item.getProductPicture(_blob))" height="150" width="150" />
-                    </div>
+                    <a class="btn btn-primary" asp-controller="DisplayProduct" asp-action="AddToCart" asp-route-id="@item.ID">Add to cart</a>
+                    <p></p>
+                    <a class="btn btn-secondary" asp-controller="User" asp-action="ViewUser" asp-route-id="@item.sellerID">Go to store</a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productMass)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productDescription)
-                </td>
-                @if (HttpContextAccessor.HttpContext.Session.Get<UserType>("UserType")== UserType.BUYER)
-                {
-                    <td>
-                        <a class="btn btn-primary" asp-controller="DisplayProduct" asp-action="AddToCart" asp-route-id="@item.ID">Add to cart</a>
-                    </td>
-                }
-
-            </tr>
+            }
+        </tr>
         }
     </tbody>
 </table>
