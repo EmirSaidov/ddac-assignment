@@ -33,7 +33,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: MiningCommerce
-        slot-name: Production
+        slot-name: Development
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AFE35CDAA60D4ECC8068C04A1E051B56 }}
         package: ${{env.DOTNET_ROOT}}/myapp
 
