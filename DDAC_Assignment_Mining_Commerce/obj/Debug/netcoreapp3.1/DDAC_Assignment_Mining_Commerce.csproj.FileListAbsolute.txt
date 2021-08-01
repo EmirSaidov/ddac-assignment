@@ -589,3 +589,4 @@ C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Min
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Report\_Products.cshtml.g.cs
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Report\_Buyers.cshtml.g.cs
 C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Report\_Sellers.cshtml.g.cs
+C:\Users\Jaydon\source\repos\DDAC_Assignment_Mining_Commerce\DDAC_Assignment_Mining_Commerce\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Report\_ProductAnalytics.cshtml.g.cs
