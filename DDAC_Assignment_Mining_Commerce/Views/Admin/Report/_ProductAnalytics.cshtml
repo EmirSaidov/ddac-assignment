@@ -1,0 +1,73 @@
+﻿@model ProductAnalyticRes
+@{
+    @using Newtonsoft.Json;
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+        // Create the data table.
+        var productData = new google.visualization.DataTable();
+        productData.addColumn('string', 'Products');
+        productData.addColumn('number', 'Count');
+        var dailyNewProducts = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.dailyNewProduct))');
+        var keys = Object.keys(dailyNewProducts).forEach(key => {
+            productData.addRow([key, dailyNewProducts[key]]);
+        });
+
+        // Set chart options
+        var options = {
+            'title': 'New Products',
+            legend: { position: 'none' }
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('newProducts'));
+        chart.draw(productData, options);
+    }
+
+</script>
+<div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <div><b>Top 5 Recent Product</b></div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (KeyValuePair<string, string> kvp in Model.recent5Product)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            @{
+                                i++;
+                            }
+
+                            <td>@kvp.Value</td>
+                            <td>@kvp.Key</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="newProducts" style="width: 700px; height: 500px"></div>
+    </div>
+</div>
+

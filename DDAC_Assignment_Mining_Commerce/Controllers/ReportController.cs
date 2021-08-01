@@ -1,4 +1,5 @@
-﻿using DDAC_Assignment_Mining_Commerce.Models.Analytics;
+﻿using DDAC_Assignment_Mining_Commerce.Analytics;
+using DDAC_Assignment_Mining_Commerce.Models.Analytics;
 using DDAC_Assignment_Mining_Commerce.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             ReportViewModel viewModel = new ReportViewModel();
             List<LoginAnalytic> loginAnalytics = await _analytic.getAnalytics<LoginAnalytic>(new LoginAnalytic());
             List<RegisterAnalytic> registrationAnalytics = await _analytic.getAnalytics<RegisterAnalytic>(new RegisterAnalytic());
+            List<ProductAnalytic> productAnalytics = await _analytic.getAnalytics<ProductAnalytic>(new ProductAnalytic());
             List<UserModel> users = await _context.User.ToListAsync<UserModel>();
             List<BuyerModel> buyers = await _context.Buyer.Include(buyer => buyer.user).ToListAsync<BuyerModel>();
             List<SellerModel> sellers = await _context.Seller.Include(seller => seller.user).ToListAsync<SellerModel>();
@@ -31,6 +33,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
 
             viewModel.login_ = loginAnalysis(loginAnalytics, users);
             viewModel.registration_ = registrationAnalysis(registrationAnalytics);
+            viewModel.product_ = productAnalysis(productAnalytics,products);
             viewModel.buyers = buyers;
             viewModel.sellers = sellers;
             viewModel.products = products;
@@ -68,6 +71,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public RegisterAnalyticRes registrationAnalysis(List<RegisterAnalytic> data)
         {
             Dictionary<string, int> dailyRegistration = new Dictionary<string, int>();
+            data = data.OrderBy(p => p.created_at).ToList();
             data.ForEach(analytic => {
                 //Count daily login
                 if (dailyRegistration.ContainsKey(analytic.getRegisterDate()))
@@ -78,17 +82,43 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             });
             return new RegisterAnalyticRes { dailyRegistration = dailyRegistration };
         }
+
+        public ProductAnalyticRes productAnalysis(List<ProductAnalytic> data,List<ProductModel> product) {
+            Dictionary<string, int> dailyNewProduct = new Dictionary<string, int>();
+            Dictionary<string, string> recent5Product = new Dictionary<string, string>();
+            data = data.OrderBy(p => p.created_at).ToList();
+            data.ForEach(analytic =>
+            {
+                //Count daily new Product
+                if (dailyNewProduct.ContainsKey(analytic.getProductDate()))
+                {
+                    dailyNewProduct[analytic.getProductDate()]++;
+                }
+                else dailyNewProduct.Add(analytic.getProductDate(), 1);
+            });
+            var temp = data.OrderByDescending(p => p.created_at).Take(5).ToDictionary(prod=> prod.product_id,prod=>prod.PartitionKey);
+            foreach (KeyValuePair<int, string> kvp in temp) {
+                ProductModel productItem = product.Find(p => p.ID == kvp.Key);
+                recent5Product.Add(productItem.productName, productItem.seller.storeName);
+            }
+            return new ProductAnalyticRes { dailyNewProduct = dailyNewProduct, recent5Product = recent5Product };
+        }
     }
 
     public class ReportViewModel
     {
         public LoginAnalyticRes login_ { get; set; }
         public RegisterAnalyticRes registration_ { get; set; }
+        public ProductAnalyticRes product_ { get; set; }
         public List<BuyerModel> buyers { get; set; }
         public List<SellerModel> sellers { get; set; }
         public List<ProductModel> products { get; set; }
     }
 
+    public class ProductAnalyticRes {
+        public Dictionary<string, int> dailyNewProduct { get; set; }
+        public Dictionary<string, string> recent5Product { get; set; }
+    }
     public class RegisterAnalyticRes {
         public Dictionary<string, int> dailyRegistration { get; set; }
     }
