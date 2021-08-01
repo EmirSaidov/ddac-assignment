@@ -32,7 +32,7 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             {
                 using IServiceScope scope = _services.CreateScope();
                 IConfiguration configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-                //RunBuyerNotificationProcessor(configuration);
+                RunBuyerNotificationProcessor(configuration);
                 break;
             }
         }
