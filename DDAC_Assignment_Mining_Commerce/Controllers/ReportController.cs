@@ -26,6 +26,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             List<LoginAnalytic> loginAnalytics = await _analytic.getAnalytics<LoginAnalytic>(new LoginAnalytic());
             List<RegisterAnalytic> registrationAnalytics = await _analytic.getAnalytics<RegisterAnalytic>(new RegisterAnalytic());
             List<ProductAnalytic> productAnalytics = await _analytic.getAnalytics<ProductAnalytic>(new ProductAnalytic());
+            List<OrderAnalytic> orderAnalytics = await _analytic.getAnalytics<OrderAnalytic>(new OrderAnalytic());
             List<UserModel> users = await _context.User.ToListAsync<UserModel>();
             List<BuyerModel> buyers = await _context.Buyer.Include(buyer => buyer.user).ToListAsync<BuyerModel>();
             List<SellerModel> sellers = await _context.Seller.Include(seller => seller.user).ToListAsync<SellerModel>();
@@ -34,6 +35,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             viewModel.login_ = loginAnalysis(loginAnalytics, users);
             viewModel.registration_ = registrationAnalysis(registrationAnalytics);
             viewModel.product_ = productAnalysis(productAnalytics,products);
+            viewModel.order_ = orderAnalysis(orderAnalytics, buyers);
             viewModel.buyers = buyers;
             viewModel.sellers = sellers;
             viewModel.products = products;
@@ -103,6 +105,40 @@ namespace DDAC_Assignment_Mining_Commerce.Models
             }
             return new ProductAnalyticRes { dailyNewProduct = dailyNewProduct, recent5Product = recent5Product };
         }
+
+        public OrderAnalyticRes orderAnalysis(List<OrderAnalytic> data, List<BuyerModel> buyers) {
+            Dictionary<string, int> dailyNewOrder = new Dictionary<string, int>();
+            List<KeyValuePair<string,double>> top5OrderMonth = new List<KeyValuePair<string, double>>();
+            List<OrderAnalytic> filteredData = new List<OrderAnalytic>();
+            DateTime now = DateTime.Now;
+            data = data.OrderBy(p => p.created_at).ToList();
+            data.ForEach(analytic =>
+            {
+                if (analytic.created_at.Month == now.Month && analytic.created_at.Year == now.Year) {
+                    filteredData.Add(analytic);
+                }
+                //Count daily new Product
+                if (dailyNewOrder.ContainsKey(analytic.getOrderDate()))
+                {
+                    dailyNewOrder[analytic.getOrderDate()]++;
+                }
+                else dailyNewOrder.Add(analytic.getOrderDate(), 1);
+            });
+            var temp = new List<KeyValuePair<int, double>>();
+            filteredData.OrderBy(o => o.total_amount)
+                .Take(5)
+                .ToList()
+                .ForEach(filteredOrder =>
+                {
+                    temp.Add(new KeyValuePair<int, double>(filteredOrder.buyer_id, filteredOrder.total_amount));
+                });
+            foreach (KeyValuePair<int, double> kvp in temp)
+            {
+                BuyerModel buyer = buyers.Find(b => b.ID == kvp.Key);
+                top5OrderMonth.Add(new KeyValuePair<string,double>(buyer.user.email, kvp.Value));
+            }
+            return new OrderAnalyticRes { dailyNewOrder= dailyNewOrder, top5OrderMonth = top5OrderMonth};
+        }
     }
 
     public class ReportViewModel
@@ -110,6 +146,7 @@ namespace DDAC_Assignment_Mining_Commerce.Models
         public LoginAnalyticRes login_ { get; set; }
         public RegisterAnalyticRes registration_ { get; set; }
         public ProductAnalyticRes product_ { get; set; }
+        public OrderAnalyticRes order_ { get; set; }
         public List<BuyerModel> buyers { get; set; }
         public List<SellerModel> sellers { get; set; }
         public List<ProductModel> products { get; set; }
@@ -126,6 +163,11 @@ namespace DDAC_Assignment_Mining_Commerce.Models
     public class LoginAnalyticRes {
         public Dictionary<string, string> top5ActiveUser { get; set; }
         public Dictionary<string, int> dailyLogin { get; set; }
+    }
+
+    public class OrderAnalyticRes {
+        public Dictionary<string, int> dailyNewOrder { get; set; }
+        public List<KeyValuePair<string, double>> top5OrderMonth { get; set; }
     }
 
 }

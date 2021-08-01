@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<DDAC_Assignment_Mining_Commerce.Models.ProductModel>
-
-
+@using Newtonsoft.Json;
 @{
     ViewData["Title"] = "Checkout";
+    PayModel payment = ViewBag.payment;
 }
 
 
 <table class="table">
     <thead>
         <tr>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.productName)
             </th>
@@ -24,46 +24,50 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr> 
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.productName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.productPrice)
                 </td>
-               
+
             </tr>
         }
     </tbody>
 </table>
 
 <h1>@ViewData["Title"]</h1>
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ViewPay" method="post">
             <hr />
+            <div class="form-group">
+                <label asp-for="@payment.fullname" class="control-label"></label>
+                <input asp-for="@payment.fullname" class="form-control" />
+                <span asp-validation-for="@payment.fullname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@payment.phone" class="control-label"></label>
+                <input asp-for="@payment.phone" class="form-control" />
+                <span asp-validation-for="@payment.phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@payment.card" class="control-label"></label>
+                <input asp-for="@payment.card" class="form-control" />
+                <span asp-validation-for="@payment.card" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@payment.cvc" class="control-label"></label>
+                <input asp-for="@payment.cvc" class="form-control" />
+                <span asp-validation-for="@payment.cvc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@payment.ex_date" class="control-label"></label>
+                <input asp-for="@payment.ex_date" class="form-control" />
+                <span asp-validation-for="@payment.ex_date" class="text-danger"></span>
+            </div>
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label>Full Name:</label>
-                <input placeholder="Enter Name" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Phone Number:</label>
-                <input placeholder="Enter Phone" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Card Number:</label>
-                <input placeholder="Enter Card Number" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>CVC Security Code:</label>
-                <input placeholder="Enter CVC" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Expiration Year:</label>
-                <input placeholder="Enter Expiration Year" class="form-control" />
-            </div>
             <button type="submit" class="btn btn-primary" asp-area="" asp-controller="DisplayProduct" asp-action="Receipt">Pay</button>
         </form>
     </div>
