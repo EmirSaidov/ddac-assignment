@@ -39,7 +39,13 @@ namespace DDAC_Assignment_Mining_Commerce.Services
             {
                 TableOperation tableOperation = TableOperation.Insert(subscription);
                 _ = getTable("subscriptions").ExecuteAsync(tableOperation);
-            } else
+            }
+        }
+
+        public async void Unsubscribe(Subscription subscription)
+        {
+            Subscription exist = await GetSubscription(subscription.RowKey, subscription.PartitionKey);
+            if (exist != null)
             {
                 subscription.ETag = "*";
                 TableOperation tableOperation = TableOperation.Delete(subscription);
